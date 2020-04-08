@@ -1,0 +1,30 @@
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+    <Route
+      {...rest}
+      render={props => {
+          if (auth.isLoading) {
+              return (
+                <div class="spinner-grow" role="status">
+                   <span class="sr-only">Loading...</span>
+                </div>
+              );
+          } else if (!auth.isAuthenticated) {
+              return <Redirect to="/login" />;
+          } else {
+              return <Component {...props} />;
+          }
+      }}
+    />
+);
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+// then we can have this.props.auth
+
+export default connect(mapStateToProps)(PrivateRoute);
