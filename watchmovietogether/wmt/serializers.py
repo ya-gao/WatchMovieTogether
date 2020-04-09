@@ -1,7 +1,7 @@
 # Serializers allow complex data such as querysets and model instances to be converted to 
 # native Python datatypes that can then be easily rendered into JSON
 from rest_framework import serializers
-from .models import Group
+from .models import GroupExtend
 
 # # NewUserManager Serializer
 # class NewUserManagerSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ from .models import Group
 # NewGroupManager Serializer
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Group
+        model = GroupExtend
         fields = '__all__'
 
 # # Movie Serializer

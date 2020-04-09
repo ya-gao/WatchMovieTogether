@@ -38,6 +38,7 @@ export class Form extends Component {
                         <input 
                            className="form-control"
                            type="text"
+                           placeholder="Please input a group name"
                            name="group_name"
                            onChange={this.onChange}
                            value={group_name}
@@ -54,8 +55,9 @@ export class Form extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
-                            Submit
+                        <button type="submit" className="btn btn-outline-info">
+                            <i className="fas fa-plus-circle" style={{marginRight:"5px", color:"#be79df"}}></i>
+                            Create
                         </button>
                     </div>
                 </form>

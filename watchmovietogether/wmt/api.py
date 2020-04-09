@@ -1,4 +1,4 @@
-from .models import Group
+from .models import GroupExtend
 from rest_framework import viewsets, permissions
 from .serializers import GroupSerializer
 
@@ -34,6 +34,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # save the group owner when create group
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+        
 
     
 

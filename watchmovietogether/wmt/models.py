@@ -7,27 +7,6 @@ from datetime import datetime
 
 # Create your models here.
 
-
-class MMTest(models.Model):
-    users = models.ManyToManyField(User)
-
-
-# class NewUserManager(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     group_owned = models.ManyToManyField(Group, verbose_name='group_owned', blank=True)
-#    @receiver(post_save, sender=User)
-#     def create_user_manager(self, sender, instance, created, **kwargs):
-#         if created:
-#             NewUserManager.objects.create(user=instance)
-
-#     @receiver(post_save, sender=User)
-#     def save_user_manager(self, sender, instance, **kwargs):
-#         instance.newusermanager.save()
-
-#     def __str__(self):
-#         return self.user.username
-
-
 class Event(models.Model):
     event_name = models.CharField(max_length=200)
     event_location = models.CharField(max_length=200)  # may change in the future
@@ -39,11 +18,12 @@ class Event(models.Model):
 #     #     return self.event_name
 
 
-class Group(models.Model):
+class GroupExtend(models.Model):
     group_name = models.CharField(max_length=100, default="New Group")
     group_events = models.CharField(max_length=100, default="no events")
     owner = models.ForeignKey(User, related_name="group_owned", on_delete=models.CASCADE, null=True)
-    # group = models.OneToOneField(Group, on_delete=models.CASCADE)
+    members = models.ManyToManyField(User, blank=True)
+    #group = models.OneToOneField(Group, related_name="name", on_delete=models.CASCADE)
     # group_events = models.ManyToManyField(Event)
     # group_user = models.ManyToManyField(User)
     # @receiver(post_save, sender=Group)

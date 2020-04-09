@@ -23,8 +23,19 @@ export class Header extends Component {
             <li className="nav-item active">
               <button 
                 className="nav-link btn btn-info btn-sm text-light"
+                style={{marginRight: "10px"}}
                 onClick={this.props.logout}
-                >
+              >
+                <i className="fas fa-bell" style={{marginRight: "5px"}}></i>
+                Notifications
+              </button> 
+            </li>
+            <li className="nav-item active">
+              <button 
+                className="nav-link btn btn-info btn-sm text-light"
+                onClick={this.props.logout}
+              >
+                <i className="fas fa-sign-out-alt" style={{marginRight: "5px"}}></i>
                 Logout
               </button> 
             </li>
@@ -49,7 +60,10 @@ export class Header extends Component {
                 <span className="navbar-toggler-icon"></span>
               </button>
               <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a className="navbar-brand" href="#">Watch Movie Together</a>
+                <a className="navbar-brand" href="#">
+                  <i className="fab fa-weebly" style={{color:"#be79df"}}></i>
+                  atch Movie Together
+                </a>
                 { isAuthenticated ? authLinks : guestLinks }
               </div>
               

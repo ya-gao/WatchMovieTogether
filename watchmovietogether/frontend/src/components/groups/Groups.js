@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getGroups, unsubscribeGroup, createGroup } from '../../actions/groups';
 
+
+
 export class Groups extends Component {
+    state = {
+        group_name: '',
+        group_events: ''
+    };
+
     static PropTypes = {
         groups: PropTypes.array.isRequired,
         getGroups: PropTypes.func.isRequired,
@@ -15,39 +22,103 @@ export class Groups extends Component {
         this.props.getGroups();
     }
 
+    onSubmit = e => {
+        e.preventDefault();
+        console.log("I got clicked");
+    };
+
     render() {
         return (
             <Fragment>
                 <h2>Groups</h2>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Events</th>
-                            <th />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.props.groups.map(group => (
-                                <tr key={group.id}>
-                                    <td>{group.id}</td>
-                                    <td>{group.group_name}</td>
-                                    <td>{group.group_events}</td>
-                                    <td><button 
-                                           onClick={this.props.unsubscribeGroup.bind(this, group.id)} 
-                                           className="btn btn-danger btn-sm"
-                                        >
-                                        {" "}  
-                                        Unsubscribe
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+                <div className="container">
+                    <div className="row">
+                    {
+                        this.props.groups.map(group => {
+                            const modalID = "inviteModal" + (group.id).toString();
+                            const modalTarget = "#" + modalID;
+
+                            return (
+                                <Fragment key={group.id}>
+                                    <div className="col-4">
+                                        <div className="card h-100">
+                                            <div className="card-header d-flex justify-content-between">
+                                                {group.group_name}
+                                                <button 
+                                                    className="btn btn-outline-info btn-sm" data-toggle="modal" data-target={modalTarget}
+                                                    
+                                                >
+                                                    <i className="fas fa-user-plus" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                    Invite
+                                                </button>
+                                            </div>
+                                            
+                                            <div className="card-body">
+                                                <ul className="list-group list-group-flush">
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Group Administrator: {group.owner}
+                                                    </li>
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Group Member: {group.members}
+                                                    </li>
+                                                </ul>
+
+                                                <button 
+                                                    className="btn btn-outline-info btn-sm btn-block"
+                                                    
+                                                    style={{marginTop: "10px"}}
+                                                >
+                                                    {" "}  
+                                                    Events
+                                                </button>
+
+                                                <button 
+                                                    className="btn btn-danger btn-sm btn-block"
+                                                    onClick={this.props.unsubscribeGroup.bind(this, group.id)}  
+                                                    
+                                                >
+                                                    {" "}  
+                                                    Unsubscribe
+                                                </button>
+                                            </div>   
+                                        </div>
+                                    </div>
+
+                                    <div className="modal fade" id={modalID} role="dialog">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="inviteModalLabel">Send Invitation To</h5>
+                                                    <button type="button" className="close" data-dismiss="modal">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <form onSubmit={this.onSubmit}>
+                                                        <input type="hidden" name="group_id" value={group.id} />
+                                                        <div className="form-group">
+                                                            <label htmlFor="group_name" className="col-form-label">Group:</label>
+                                                            <input type="text" name="group_name" className="form-control" value={group.group_name} readOnly />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="email" className="col-form-label">Email:</label>
+                                                            <input type="email" name="email" className="form-control" required />
+                                                        </div>
+                                                        
+                                                        <hr />
+                                                        <input type="submit" value="Send" className="btn btn-block btn-secondary" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Fragment>                      
+                        );})
+                    }
+                    </div>
+                </div>
             </Fragment>
         )
     }
