@@ -21,14 +21,12 @@ export class Header extends Component {
               </strong>
             </span>
             <li className="nav-item active">
-              <button 
-                className="nav-link btn btn-info btn-sm text-light"
-                style={{marginRight: "10px"}}
-                onClick={this.props.logout}
-              >
-                <i className="fas fa-bell" style={{marginRight: "5px"}}></i>
-                Notifications
-              </button> 
+                <Link to="/invitations" className="nav-link">
+                  <span className="badge badge-light">
+                    <i className="fas fa-bell" style={{marginRight: "5px"}}></i>
+                    4
+                  </span>
+                </Link>
             </li>
             <li className="nav-item active">
               <button 

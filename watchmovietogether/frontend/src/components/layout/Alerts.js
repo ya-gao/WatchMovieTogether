@@ -34,6 +34,15 @@ export class Alerts extends Component {
             if (message.passwordNotMatch) {
                 alert.error(message.passwordNotMatch);
             }
+            if (message.denyInvitation) {
+                alert.success(message.denyInvitation);
+            }
+            if (message.acceptInvitation) {
+                alert.success(message.acceptInvitation);
+            }
+            if (message.sendInvitation) {
+                alert.success(message.sendInvitation);
+            }
         }
     }
 

@@ -2,32 +2,39 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getGroups, unsubscribeGroup, createGroup } from '../../actions/groups';
-
-
+import { sendInvitation } from '../../actions/invitations';
 
 export class Groups extends Component {
     state = {
-        group_name: '',
-        group_events: ''
+        invited_username: ''
     };
 
     static PropTypes = {
         groups: PropTypes.array.isRequired,
         getGroups: PropTypes.func.isRequired,
         unsubscribeGroup: PropTypes.func.isRequired,
-        createGroup: PropTypes.func.isRequired
+        createGroup: PropTypes.func.isRequired,
+        sendInvitation: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.props.getGroups();
     }
 
+    onChange = e => this.setState({ [e.target.name]: e.target.value });
+
     onSubmit = e => {
         e.preventDefault();
-        console.log("I got clicked");
+        const { invited_username } = this.state;
+        const group_name = e.target.group_name.value;
+        const group_id = e.target.group_id.value;
+        const newInvitation = { group_name, group_id, invited_username };
+        this.props.sendInvitation(newInvitation);
+        this.setState({invited_username: ''});
     };
 
     render() {
+        const { invited_username } = this.state;
         return (
             <Fragment>
                 <h2>Groups</h2>
@@ -90,7 +97,7 @@ export class Groups extends Component {
                                         <div className="modal-dialog">
                                             <div className="modal-content">
                                                 <div className="modal-header">
-                                                    <h5 className="modal-title" id="inviteModalLabel">Send Invitation To</h5>
+                                                    <h5 className="modal-title" id="inviteModalLabel">Send Invitation</h5>
                                                     <button type="button" className="close" data-dismiss="modal">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -103,8 +110,8 @@ export class Groups extends Component {
                                                             <input type="text" name="group_name" className="form-control" value={group.group_name} readOnly />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="email" className="col-form-label">Email:</label>
-                                                            <input type="email" name="email" className="form-control" required />
+                                                            <label htmlFor="Invited_username" className="col-form-label">Username:</label>
+                                                            <input type="text" name="invited_username" className="form-control" onChange={this.onChange} value={invited_username} required />
                                                         </div>
                                                         
                                                         <hr />
@@ -128,4 +135,4 @@ const mapStateToProps = state => ({
     groups: state.groups.groups
 })
 
-export default connect(mapStateToProps, { getGroups, unsubscribeGroup, createGroup })(Groups);
+export default connect(mapStateToProps, { getGroups, unsubscribeGroup, createGroup, sendInvitation })(Groups);
