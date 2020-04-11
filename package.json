@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch ./watchmovietogether/frontend/src/index.js --output ./watchmovietogether/frontend/static/frontend/main.js",
-    "build": "webpack --mode production ./watchmovietogether/frontend/src/index.js --output ./watchmovietogether/frontend/static/frontend/main.js"
+    "dev": "webpack --mode development --watch ./MyProject/frontend/src/index.js --output ./MyProject/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./MyProject/frontend/src/index.js --output ./MyProject/frontend/static/frontend/main.js"
   },
   "repository": {
     "type": "git",

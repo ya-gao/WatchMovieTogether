@@ -1,4 +1,10 @@
 /node_modules
+watchmovietogether/db.sqlite3
+### Django ###
+__pycache__/
+db.sqlite3
+*.log
+*.pot
 *.pyc
-watchmovietogether/db.sqlite3
-watchmovietogether/db.sqlite3
+local_settings.py 
+media
