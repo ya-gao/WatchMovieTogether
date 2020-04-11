@@ -14,7 +14,7 @@ npm run dev
 
 ```
 
-## Helpful Resourcces
+## Helpful Resources
 [Django REST Framework](https://www.django-rest-framework.org/)<br/>
 [axios](https://github.com/axios/axios)<br/>
 [Django Documentation](https://docs.djangoproject.com/en/3.0/)<br/>
