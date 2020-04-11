@@ -8,3 +8,5 @@ db.sqlite3
 *.pyc
 local_settings.py 
 media
+MyProject/db.sqlite3
+MyProject/frontend/static/frontend/main.js
