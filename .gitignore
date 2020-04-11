@@ -1,1 +1,4 @@
 /node_modules
+*.pyc
+watchmovietogether/db.sqlite3
+watchmovietogether/db.sqlite3
