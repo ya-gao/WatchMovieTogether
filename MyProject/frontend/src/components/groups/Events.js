@@ -1,26 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEvents, getGroups, unsubscribeGroup, createGroup } from '../../actions/groups';
-import { sendInvitation } from '../../actions/invitations';
+import { getEvents } from '../../actions/groups';
 import { Link } from 'react-router-dom';
 
-export class Groups extends Component {
+export class Events extends Component {
     state = {
         invited_username: ''
     };
 
     static PropTypes = {
-        getEvents: PropTypes.func.isRequired,
-        groups: PropTypes.array.isRequired,
-        getGroups: PropTypes.func.isRequired,
-        unsubscribeGroup: PropTypes.func.isRequired,
-        createGroup: PropTypes.func.isRequired,
-        sendInvitation: PropTypes.func.isRequired
+        events: PropTypes.array.isRequired,
+        getEvents: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.getGroups();
+        this.props.getEvents();
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -74,7 +69,7 @@ export class Groups extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <Link className="text-decoration-none" to="/events">
+                                                <Link class="text-decoration-none" to="/group">
                                                     <button 
                                                         className="btn btn-outline-info btn-sm btn-block"
                                                         onClick={this.props.getEvents.bind(this, group.id)}
@@ -136,7 +131,7 @@ export class Groups extends Component {
 }
 
 const mapStateToProps = state => ({
-    groups: state.groups.groups
+    events: state.events.events
 })
 
-export default connect(mapStateToProps, { getEvents, getGroups, unsubscribeGroup, createGroup, sendInvitation })(Groups);
+export default connect(mapStateToProps, { getEvents })(Events);

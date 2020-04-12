@@ -4,6 +4,11 @@ import { tokenConfig } from './auth';
 
 import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from './types';
 
+// Get events
+export const getEvents = (id) => (dispatch, getState) => {
+    console.log("TODO: Get group " + id + " events")
+}
+
 // GET GROUPS
 export const getGroups = () => (dispatch, getState) => {
     axios

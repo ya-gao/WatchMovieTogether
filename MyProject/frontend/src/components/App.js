@@ -7,6 +7,7 @@ import AlertTemplate from 'react-alert-template-basic';
 
 import Header from './layout/Header';
 import Dashboard from './groups/Dashboard';
+import Events from './groups/Events';
 import Invitations from './invitations/Invitations';
 import Alerts from './layout/Alerts';
 import Login from './accounts/Login';
@@ -39,6 +40,7 @@ class App extends Component {
                 <div className="container">
                     <Switch>
                         <PrivateRoute exact path="/" component={Dashboard} />
+                        <PrivateRoute exact path="/events" component={Events} />
                         <PrivateRoute exact path="/invitations" component={Invitations} />
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/login" component={Login} />
