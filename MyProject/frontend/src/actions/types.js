@@ -1,3 +1,4 @@
+export const GET_EVENTS = "GET_EVENTS";
 export const GET_GROUPS = "GET_GROUPS";
 export const UNSUBSCRIBE_GROUP = "UNSUBSCRIBE_GROUP";
 export const CREATE_GROUP = "CREATE_GROUP";

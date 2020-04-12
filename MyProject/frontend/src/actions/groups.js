@@ -2,11 +2,18 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from './types';
+import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP, GET_EVENTS } from './types';
 
 // Get events
 export const getEvents = (id) => (dispatch, getState) => {
-    console.log("TODO: Get group " + id + " events")
+    axios
+      .get(`/api/groups/${id}`, tokenConfig(getState))
+      .then(response => {
+          dispatch({
+              type: GET_EVENTS,
+              payload: response.data
+          });
+      }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 // GET GROUPS

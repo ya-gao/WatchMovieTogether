@@ -34,7 +34,7 @@ export class Events extends Component {
         const { invited_username } = this.state;
         return (
             <Fragment>
-                <h2>Groups</h2>
+                <h2>Events</h2>
                 <div className="container">
                     <div className="row">
                     {
@@ -82,8 +82,6 @@ export class Events extends Component {
 
                                                 <button 
                                                     className="btn btn-danger btn-sm btn-block"
-                                                    onClick={this.props.unsubscribeGroup.bind(this, group.id)}  
-                                                    
                                                 >
                                                     {" "}  
                                                     Unsubscribe
@@ -131,7 +129,7 @@ export class Events extends Component {
 }
 
 const mapStateToProps = state => ({
-    events: state.events.events
+    groups: state.groups.groups
 })
 
 export default connect(mapStateToProps, { getEvents })(Events);

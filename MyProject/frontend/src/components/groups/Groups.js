@@ -74,7 +74,7 @@ export class Groups extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <Link className="text-decoration-none" to="/events">
+                                                <Link className="text-decoration-none" to={"/events?groupId=" + group.id}>
                                                     <button 
                                                         className="btn btn-outline-info btn-sm btn-block"
                                                         onClick={this.props.getEvents.bind(this, group.id)}
