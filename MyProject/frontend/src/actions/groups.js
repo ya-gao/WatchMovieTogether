@@ -7,7 +7,7 @@ import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP, JOIN_GROUP } from './types
 // GET GROUPS
 export const getGroups = () => (dispatch, getState) => {
     axios
-      .get('/api/groups/', tokenConfig(getState))
+      .get('/api/viewGroups/', tokenConfig(getState))
       .then(response => {
           dispatch({
               type: GET_GROUPS,
