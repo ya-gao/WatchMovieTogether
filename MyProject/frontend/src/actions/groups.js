@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from './types';
+import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP, JOIN_GROUP } from './types';
 
 // GET GROUPS
 export const getGroups = () => (dispatch, getState) => {
@@ -38,6 +38,19 @@ export const createGroup = (group) => (dispatch, getState) => {
           dispatch(createMessage({ createGroup: 'Group Created'}));
           dispatch({
               type: CREATE_GROUP,
+              payload: response.data
+          });
+      })
+      .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+// JOIN GROUP
+export const joinGroup = (group) => (dispatch, getState) => {
+    axios
+      .patch('/api/groups/', group, tokenConfig(getState))
+      .then(response => {
+          dispatch({
+              type: JOIN_GROUP,
               payload: response.data
           });
       })

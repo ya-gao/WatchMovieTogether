@@ -1,7 +1,8 @@
 import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from '../actions/types.js';
 
 const initialState = {
-    groups: []
+    groups: [],
+    user: [],
 }
 
 export default function(state = initialState, action) {

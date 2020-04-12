@@ -2,7 +2,7 @@
 # native Python datatypes that can then be easily rendered into JSON
 from rest_framework import serializers
 from .models import GroupExtend
-
+from django.contrib.auth.models import User
 # # NewUserManager Serializer
 # class NewUserManagerSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -16,7 +16,15 @@ from .models import GroupExtend
 #         fields = '__all__'
 
 # NewGroupManager Serializer
+class UserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
 class GroupSerializer(serializers.ModelSerializer):
+    owner = UserNameSerializer()
+    members = UserNameSerializer(many=True)
     class Meta:
         model = GroupExtend
         fields = '__all__'

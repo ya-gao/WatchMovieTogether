@@ -64,11 +64,11 @@ export class Groups extends Component {
                                                 <ul className="list-group list-group-flush">
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Administrator: {group.owner}
+                                                        Group Administrator: {group.owner.username}
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Member: {group.members}
+                                                        Group Member: {(group.members.map(member => (member.username))).join()}
                                                     </li>
                                                 </ul>
 

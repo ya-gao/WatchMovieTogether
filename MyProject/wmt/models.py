@@ -14,10 +14,14 @@ class Event(models.Model):
     event_end_vote_time = models.DateTimeField("end vote time", default=datetime.now)
     event_time = models.DateTimeField("event time", default=datetime.now)
 
-#     # def __str__(self):
-#     #     return self.event_name
+    def __str__(self):
+        return self.event_name
 
-
+# class GroupExtend(models.Model):
+#     group_name = models.CharField(max_length=100, default="New Group")
+#     group_events = models.CharField(max_length=100, default="no events")
+#     owner = models.OneToOneField(User, related_name="group_owned", on_delete=models.CASCADE, null=True)
+#     members = models.ManyToManyField(User,related_name="group_members", blank=True)
 class GroupExtend(models.Model):
     group_name = models.CharField(max_length=100, default="New Group")
     group_events = models.CharField(max_length=100, default="no events")
@@ -35,8 +39,8 @@ class GroupExtend(models.Model):
     # def save_group_manager(self, sender, instance, **kwargs):
     #     instance.newgroupmanager.save()
 
-    # def __str__(self):
-    #     return self.group.name
+    def __str__(self):
+        return self.group_name
 
 
 class Movie(models.Model):
@@ -46,5 +50,5 @@ class Movie(models.Model):
     movie_link = models.URLField()
     movie_published = models.DateTimeField("date published")
 
-    # def __str__(self):
-    #     return self.movie_title
+    def __str__(self):
+        return self.movie_title
