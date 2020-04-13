@@ -29,6 +29,7 @@ export const getBelongedGroups = () => (dispatch, getState) => {
 
 // UNSUBSCRIBE GROUP
 export const unsubscribeGroup = (id) => (dispatch, getState) => {
+
     axios
       .delete(`/api/groups/${id}/`, tokenConfig(getState))
       .then(response => {
@@ -43,8 +44,9 @@ export const unsubscribeGroup = (id) => (dispatch, getState) => {
 
 // UNSUBSCRIBE BELONGED GROUP
 export const unsubscribeBelongedGroup = (id) => (dispatch, getState) => {
+    console.log(tokenConfig(getState))
     axios
-      .put(`/api/unsubscribeBelongedGroups/${id}/`, tokenConfig(getState))
+      .delete(`/api/unsubscribeBelongedGroup/${id}/`, tokenConfig(getState))
       .then(response => {
           
           dispatch(createMessage({ unsubscribeGroup: 'Group Unsubscribed'}));
@@ -52,7 +54,8 @@ export const unsubscribeBelongedGroup = (id) => (dispatch, getState) => {
               type: UNSUBSCRIBE_BELONGED_GROUP,
               payload: id
           });
-      }).catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
 };
 
 // CREATE GROUP

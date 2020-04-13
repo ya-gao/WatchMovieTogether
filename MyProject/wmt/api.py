@@ -2,6 +2,7 @@ from .models import GroupExtend
 from rest_framework import viewsets, permissions
 from .serializers import ShowGroupSerializer, GroupSerializer
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 
 class GroupInViewSet(viewsets.ModelViewSet):
@@ -24,10 +25,17 @@ class GorupUnsubscribeViewSet(viewsets.ModelViewSet):
 
     serializer_class = GroupSerializer
 
-    def update(self, request, *args, **kwargs):
+
+    def destroy(self, request, pk=None):
         print("perform update")
         print(request.data)
-        # print(request)
+        group = GroupExtend.objects.get(id=pk)
+
+        # current_user = User.objects.get(username=request.user)
+        current_user = self.request.user
+        group.members.remove(current_user)
+        # print(current_user.username)
+        group.save()
         # group = GroupExtend.objects.get(id=self.action.id)
         # print(group)
         # new_user = User.objects.get(username=request.user.username) 
@@ -50,6 +58,7 @@ class GroupManageViewSet(viewsets.ModelViewSet):
         group = self.request.user.group_owned.all()
         return group
 
+    
 
 # Group Viewset
 class GroupViewSet(viewsets.ModelViewSet):

@@ -5,5 +5,5 @@ router = routers.DefaultRouter()
 router.register('api/groups', GroupManageViewSet, 'groups')
 router.register('api/viewGroups', GroupViewSet, 'groups')
 router.register('api/viewBelongedGroups', GroupInViewSet, 'groups')
-router.register('api/unsubscribeBelongedGroups', GorupUnsubscribeViewSet, 'groups')
+router.register('api/unsubscribeBelongedGroup', GorupUnsubscribeViewSet, 'groups')
 urlpatterns = router.urls

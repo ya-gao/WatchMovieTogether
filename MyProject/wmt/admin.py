@@ -7,4 +7,4 @@ class GroupExtendAdmin(admin.ModelAdmin):
     filter_horizontal = ('members',)
 
 # Register your models here.
-admin.site.register(GroupExtend,GroupExtendAdmin)
+admin.site.register(GroupExtend, GroupExtendAdmin)
