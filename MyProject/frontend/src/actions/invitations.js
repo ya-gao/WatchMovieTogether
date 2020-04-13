@@ -19,7 +19,7 @@ export const getInvitations = () => (dispatch, getState) => {
 // DENY INVITATION
 export const denyInvitation = (id) => (dispatch, getState) => {
     axios
-      .delete(`/api/invitations/${id}/`, tokenConfig(getState))
+      .delete(`/api/denyInvitations/${id}/`, tokenConfig(getState))
       .then(response => {
           dispatch(createMessage({ denyInvitation: 'Invitation Denied'}));
           dispatch({

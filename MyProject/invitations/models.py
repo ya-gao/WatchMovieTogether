@@ -8,4 +8,4 @@ class Invitation(models.Model):
     invited_username = models.CharField(max_length=100, default='not selected')
 
     def __str__(self):
-        return f"{self.group_id} group name: {self.group_name} invite user:  {self.invited_username}"
+        return f"{self.group_id} {self.group_name} invite user: {self.invited_username}"
