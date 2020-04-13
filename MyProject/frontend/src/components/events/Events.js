@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEvents } from '../../actions/groups';
+import { getEvents } from '../../actions/events';
 import { Link } from 'react-router-dom';
 
 export class Events extends Component {
@@ -69,7 +69,7 @@ export class Events extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <Link class="text-decoration-none" to="/group">
+                                                <Link className="text-decoration-none" to="/group">
                                                     <button 
                                                         className="btn btn-outline-info btn-sm btn-block"
                                                         onClick={this.props.getEvents.bind(this, group.id)}

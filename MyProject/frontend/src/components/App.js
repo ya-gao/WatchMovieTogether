@@ -7,7 +7,7 @@ import AlertTemplate from 'react-alert-template-basic';
 
 import Header from './layout/Header';
 import Dashboard from './groups/Dashboard';
-import Events from './groups/Events';
+import Events from './events/Events';
 import Invitations from './invitations/Invitations';
 import Alerts from './layout/Alerts';
 import Login from './accounts/Login';

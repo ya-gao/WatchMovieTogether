@@ -1,4 +1,4 @@
-import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP, GET_EVENTS } from '../actions/types.js';
+import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from '../actions/types.js';
 
 const initialState = {
     groups: []
@@ -6,11 +6,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case GET_EVENTS:
-            return {
-                ...state,
-                events: action.payload
-            }
         case GET_GROUPS:
             return {
                 ...state,
