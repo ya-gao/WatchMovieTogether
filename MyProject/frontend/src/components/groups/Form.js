@@ -28,7 +28,7 @@ export class Form extends Component {
     };
 
     render() {
-        const { group_name, group_events } = this.state;
+        const { group_name } = this.state;
         
         return (
             <div className="card card-body mt-4 mb-4">

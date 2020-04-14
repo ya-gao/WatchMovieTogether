@@ -5,34 +5,17 @@ import { getEvents } from '../../actions/events';
 import { Link } from 'react-router-dom';
 
 export class Events extends Component {
-    state = {
-        invited_username: ''
-    };
-
     static PropTypes = {
         events: PropTypes.array.isRequired,
         getEvents: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        var groupId = this.props.location.search.substr(this.props.location.search.indexOf("=") + 1);
+        var groupId = location.hash.substr(location.hash.indexOf("=") + 1);
         this.props.getEvents(groupId);
     }
 
-    onChange = e => this.setState({ [e.target.name]: e.target.value });
-
-    onSubmit = e => {
-        e.preventDefault();
-        const { invited_username } = this.state;
-        const group_name = e.target.group_name.value;
-        const group_id = e.target.group_id.value;
-        const newInvitation = { group_name, group_id, invited_username };
-        this.props.sendInvitation(newInvitation);
-        this.setState({invited_username: ''});
-    };
-
     render() {
-        const { invited_username } = this.state;
         return (
             <Fragment>
                 <h2>Events</h2>
@@ -41,7 +24,6 @@ export class Events extends Component {
                     {
                         this.props.events.map(event => {
                             const modalID = "inviteModal" + (event.id).toString();
-                            const modalTarget = "#" + modalID;
 
                             return (
                                 <Fragment key={event.id}>
@@ -86,35 +68,6 @@ export class Events extends Component {
                                                     Vote
                                                 </button>
                                             </div>   
-                                        </div>
-                                    </div>
-
-                                    <div className="modal fade" id={modalID} role="dialog">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <div className="modal-header">
-                                                    <h5 className="modal-title" id="inviteModalLabel">Send Invitation</h5>
-                                                    <button type="button" className="close" data-dismiss="modal">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    <form onSubmit={this.onSubmit}>
-                                                        <input type="hidden" name="group_id" value={event.id} />
-                                                        <div className="form-group">
-                                                            <label htmlFor="group_name" className="col-form-label">Group:</label>
-                                                            <input type="text" name="group_name" className="form-control" value={event.group_name} readOnly />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="Invited_username" className="col-form-label">Username:</label>
-                                                            <input type="text" name="invited_username" className="form-control" onChange={this.onChange} value={invited_username} required />
-                                                        </div>
-                                                        
-                                                        <hr />
-                                                        <input type="submit" value="Send" className="btn btn-block btn-secondary" />
-                                                    </form>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </Fragment>                      
