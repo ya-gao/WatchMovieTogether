@@ -2,12 +2,12 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP } from './types';
+import { GET_GROUPS, UNSUBSCRIBE_GROUP, CREATE_GROUP, GET_BELONGED_GROUPS, UNSUBSCRIBE_BELONGED_GROUP } from './types';
 
 // GET GROUPS
 export const getGroups = () => (dispatch, getState) => {
     axios
-      .get('/api/groups/', tokenConfig(getState))
+      .get('/api/viewGroups/', tokenConfig(getState))
       .then(response => {
           dispatch({
               type: GET_GROUPS,
@@ -16,18 +16,46 @@ export const getGroups = () => (dispatch, getState) => {
       }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
+export const getBelongedGroups = () => (dispatch, getState) => {
+    axios
+      .get('/api/viewBelongedGroups/', tokenConfig(getState))
+      .then(response => {
+          dispatch({
+              type: GET_BELONGED_GROUPS,
+              payload: response.data
+          });
+      }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
 // UNSUBSCRIBE GROUP
 export const unsubscribeGroup = (id) => (dispatch, getState) => {
+
     axios
       .delete(`/api/groups/${id}/`, tokenConfig(getState))
       .then(response => {
           
-          dispatch(createMessage({ unsubscribeGroup: 'Group Unsubscribed'}));
+          dispatch(createMessage({ unsubscribeGroup: 'Group Deleted'}));
           dispatch({
               type: UNSUBSCRIBE_GROUP,
               payload: id
           });
       }).catch(err => console.log(err));
+};
+
+// UNSUBSCRIBE BELONGED GROUP
+export const unsubscribeBelongedGroup = (id) => (dispatch, getState) => {
+    console.log(tokenConfig(getState))
+    axios
+      .delete(`/api/unsubscribeBelongedGroup/${id}/`, tokenConfig(getState))
+      .then(response => {
+          
+          dispatch(createMessage({ unsubscribeGroup: 'Group Unsubscribed'}));
+          dispatch({
+              type: UNSUBSCRIBE_BELONGED_GROUP,
+              payload: id
+          });
+      })
+      .catch(err => console.log(err));
 };
 
 // CREATE GROUP

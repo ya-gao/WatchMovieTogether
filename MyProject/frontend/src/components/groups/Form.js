@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createGroup } from '../../actions/groups';
+import { createGroup, getGroups } from '../../actions/groups';
 
 export class Form extends Component {
     state = {
@@ -24,6 +24,7 @@ export class Form extends Component {
             group_name: '',
             group_events: ''
         });
+        location.reload(true);
     };
 
     render() {
@@ -66,4 +67,4 @@ export class Form extends Component {
     }
 }
 
-export default connect(null, { createGroup })(Form);
+export default connect(null, { createGroup , getGroups})(Form);

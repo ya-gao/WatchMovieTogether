@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEvents, getGroups, unsubscribeGroup, createGroup } from '../../actions/groups';
+
+import { getEvents, getGroups, getBelongedGroups,unsubscribeGroup, unsubscribeBelongedGroup, createGroup } from '../../actions/groups';
 import { sendInvitation } from '../../actions/invitations';
 import { Link } from 'react-router-dom';
 
@@ -14,13 +15,16 @@ export class Groups extends Component {
         getEvents: PropTypes.func.isRequired,
         groups: PropTypes.array.isRequired,
         getGroups: PropTypes.func.isRequired,
+        getBelongedGroups: PropTypes.func.isRequired,
         unsubscribeGroup: PropTypes.func.isRequired,
+        unsubscribeBelongedGroup: PropTypes.func.isRequired,
         createGroup: PropTypes.func.isRequired,
         sendInvitation: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.props.getGroups();
+        this.props.getBelongedGroups();
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -66,11 +70,11 @@ export class Groups extends Component {
                                                 <ul className="list-group list-group-flush">
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Administrator: {group.owner}
+                                                        Group Administrator: {group.owner.username}
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Member: {group.members}
+                                                        Group Member: {(group.members.map(member => (member.username))).join()}
                                                     </li>
                                                 </ul>
 
@@ -90,7 +94,7 @@ export class Groups extends Component {
                                                     
                                                 >
                                                     {" "}  
-                                                    Unsubscribe
+                                                    Delete
                                                 </button>
                                             </div>   
                                         </div>
@@ -128,6 +132,65 @@ export class Groups extends Component {
                         );})
                     }
                     </div>
+
+                    
+                </div>
+                <br></br>
+                <h2>Group Belongs To</h2>
+                <div className="container">
+                    <div className="row">
+                    {
+                        this.props.belonged_groups.map(group => {
+
+                            return (
+                                <Fragment key={group.id}>
+                                    <div className="col-4">
+                                        <div className="card h-100">
+                                            <div className="card-header d-flex justify-content-between">
+                                                {group.group_name}
+                                               
+                                            </div>
+                                            
+                                            <div className="card-body">
+                                                <ul className="list-group list-group-flush">
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Group Administrator: {group.owner.username}
+                                                    </li>
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Group Member: {(group.members.map(member => (member.username))).join()}
+                                                    </li>
+                                                </ul>
+
+                                                <button 
+                                                    className="btn btn-outline-info btn-sm btn-block"
+                                                    
+                                                    style={{marginTop: "10px"}}
+                                                >
+                                                    {" "}  
+                                                    Events
+                                                </button>
+
+                                                <button 
+                                                    className="btn btn-danger btn-sm btn-block"
+                                                    onClick={this.props.unsubscribeBelongedGroup.bind(this, group.id)}  
+                                                    
+                                                >
+                                                    {" "}  
+                                                    Unsubscribe
+                                                </button>
+                                            </div>   
+                                        </div>
+                                    </div>
+
+                                    
+                                </Fragment>                      
+                        );})
+                    }
+                    </div>
+
+                    
                 </div>
             </Fragment>
         )
@@ -135,7 +198,8 @@ export class Groups extends Component {
 }
 
 const mapStateToProps = state => ({
-    groups: state.groups.groups
+    groups: state.groups.groups,
+    belonged_groups:state.groups.belonged_groups,
 })
 
-export default connect(mapStateToProps, { getEvents, getGroups, unsubscribeGroup, createGroup, sendInvitation })(Groups);
+export default connect(mapStateToProps, { getEvents, getGroups, getBelongedGroups, unsubscribeGroup, unsubscribeBelongedGroup, createGroup, sendInvitation })(Groups);
