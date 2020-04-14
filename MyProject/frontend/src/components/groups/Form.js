@@ -46,16 +46,6 @@ export class Form extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Events</label>
-                        <input 
-                           className="form-control"
-                           type="text"
-                           name="group_events"
-                           onChange={this.onChange}
-                           value={group_events}
-                        />
-                    </div>
-                    <div className="form-group">
                         <button type="submit" className="btn btn-outline-info">
                             <i className="fas fa-plus-circle" style={{marginRight:"5px", color:"#be79df"}}></i>
                             Create

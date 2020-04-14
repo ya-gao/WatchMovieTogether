@@ -77,7 +77,7 @@ export class Groups extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <Link className="text-decoration-none" to={"/events?groupId=" + group.id}>
+                                                <Link className="btn-block text-decoration-none" to={"/events?groupId=" + group.id}>
                                                     <button 
                                                         className="btn btn-outline-info btn-sm btn-block"
                                                         style={{marginTop: "10px"}}
@@ -162,14 +162,15 @@ export class Groups extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <button 
-                                                    className="btn btn-outline-info btn-sm btn-block"
-                                                    
-                                                    style={{marginTop: "10px"}}
-                                                >
-                                                    {" "}  
-                                                    Events
-                                                </button>
+                                                <Link className="btn-block text-decoration-none" to={"/events?groupId=" + group.id}>
+                                                    <button 
+                                                        className="btn btn-outline-info btn-sm btn-block"
+                                                        style={{marginTop: "10px"}}
+                                                    >
+                                                        {" "}  
+                                                        Events
+                                                    </button>
+                                                </Link>
 
                                                 <button 
                                                     className="btn btn-danger btn-sm btn-block"
