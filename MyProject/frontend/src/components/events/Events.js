@@ -1,30 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { getEvents, getGroups, getBelongedGroups,unsubscribeGroup, unsubscribeBelongedGroup, createGroup } from '../../actions/groups';
-import { sendInvitation } from '../../actions/invitations';
+import { getEvents } from '../../actions/events';
 import { Link } from 'react-router-dom';
 
-export class Groups extends Component {
+export class Events extends Component {
     state = {
         invited_username: ''
     };
 
     static PropTypes = {
-        getEvents: PropTypes.func.isRequired,
-        groups: PropTypes.array.isRequired,
-        getGroups: PropTypes.func.isRequired,
-        getBelongedGroups: PropTypes.func.isRequired,
-        unsubscribeGroup: PropTypes.func.isRequired,
-        unsubscribeBelongedGroup: PropTypes.func.isRequired,
-        createGroup: PropTypes.func.isRequired,
-        sendInvitation: PropTypes.func.isRequired
+        events: PropTypes.array.isRequired,
+        getEvents: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.getGroups();
-        this.props.getBelongedGroups();
+        this.props.getEvents();
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -43,7 +34,7 @@ export class Groups extends Component {
         const { invited_username } = this.state;
         return (
             <Fragment>
-                <h2>Groups</h2>
+                <h2>Events</h2>
                 <div className="container">
                     <div className="row">
                     {
@@ -70,17 +61,18 @@ export class Groups extends Component {
                                                 <ul className="list-group list-group-flush">
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Administrator: {group.owner.username}
+                                                        Group Administrator: {group.owner}
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Member: {(group.members.map(member => (member.username))).join()}
+                                                        Group Member: {group.members}
                                                     </li>
                                                 </ul>
 
-                                                <Link className="text-decoration-none" to={"/events?groupId=" + group.id}>
+                                                <Link className="text-decoration-none" to="/group">
                                                     <button 
                                                         className="btn btn-outline-info btn-sm btn-block"
+                                                        onClick={this.props.getEvents.bind(this, group.id)}
                                                         style={{marginTop: "10px"}}
                                                     >
                                                         {" "}  
@@ -90,11 +82,9 @@ export class Groups extends Component {
 
                                                 <button 
                                                     className="btn btn-danger btn-sm btn-block"
-                                                    onClick={this.props.unsubscribeGroup.bind(this, group.id)}  
-                                                    
                                                 >
                                                     {" "}  
-                                                    Delete
+                                                    Unsubscribe
                                                 </button>
                                             </div>   
                                         </div>
@@ -132,65 +122,6 @@ export class Groups extends Component {
                         );})
                     }
                     </div>
-
-                    
-                </div>
-                <br></br>
-                <h2>Group Belongs To</h2>
-                <div className="container">
-                    <div className="row">
-                    {
-                        this.props.belonged_groups.map(group => {
-
-                            return (
-                                <Fragment key={group.id}>
-                                    <div className="col-4">
-                                        <div className="card h-100">
-                                            <div className="card-header d-flex justify-content-between">
-                                                {group.group_name}
-                                               
-                                            </div>
-                                            
-                                            <div className="card-body">
-                                                <ul className="list-group list-group-flush">
-                                                    <li className="list-group-item">
-                                                        <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Administrator: {group.owner.username}
-                                                    </li>
-                                                    <li className="list-group-item">
-                                                        <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Member: {(group.members.map(member => (member.username))).join()}
-                                                    </li>
-                                                </ul>
-
-                                                <button 
-                                                    className="btn btn-outline-info btn-sm btn-block"
-                                                    
-                                                    style={{marginTop: "10px"}}
-                                                >
-                                                    {" "}  
-                                                    Events
-                                                </button>
-
-                                                <button 
-                                                    className="btn btn-danger btn-sm btn-block"
-                                                    onClick={this.props.unsubscribeBelongedGroup.bind(this, group.id)}  
-                                                    
-                                                >
-                                                    {" "}  
-                                                    Unsubscribe
-                                                </button>
-                                            </div>   
-                                        </div>
-                                    </div>
-
-                                    
-                                </Fragment>                      
-                        );})
-                    }
-                    </div>
-
-                    
                 </div>
             </Fragment>
         )
@@ -198,8 +129,7 @@ export class Groups extends Component {
 }
 
 const mapStateToProps = state => ({
-    groups: state.groups.groups,
-    belonged_groups:state.groups.belonged_groups,
+    groups: state.groups.groups
 })
 
-export default connect(mapStateToProps, { getEvents, getGroups, getBelongedGroups, unsubscribeGroup, unsubscribeBelongedGroup, createGroup, sendInvitation })(Groups);
+export default connect(mapStateToProps, { getEvents })(Events);

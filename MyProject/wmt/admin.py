@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import GroupExtend
+from .models import GroupExtend, Event
 
 class GroupExtendAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -8,3 +8,4 @@ class GroupExtendAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(GroupExtend, GroupExtendAdmin)
+admin.site.register(Event)

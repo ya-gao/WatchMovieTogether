@@ -1,21 +1,28 @@
-from .models import GroupExtend
+from .models import Event, GroupExtend
 from rest_framework import viewsets, permissions
-from .serializers import ShowGroupSerializer, GroupSerializer
+
+from .serializers import ShowGroupSerializer, GroupSerializer, EventSerializer
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 
 
 class GroupInViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
-
     serializer_class = ShowGroupSerializer
 
     def get_queryset(self):
         # print("I'm getting something")
         # print(GroupExtend.objects.filter(members__in=[self.request.user]))
         return GroupExtend.objects.filter(members__in=[self.request.user])
+
+
+# Event Viewset
+class EventViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    serializer_class = EventSerializer
+
     
 
 class GorupUnsubscribeViewSet(viewsets.ModelViewSet):
@@ -58,7 +65,6 @@ class GroupManageViewSet(viewsets.ModelViewSet):
         group = self.request.user.group_owned.all()
         return group
 
-    
 
 # Group Viewset
 class GroupViewSet(viewsets.ModelViewSet):
