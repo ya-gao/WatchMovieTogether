@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import DatePicker from "react-datepicker";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createGroup, getGroups } from '../../actions/groups';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 export class Form extends Component {
     state = {
@@ -45,6 +48,21 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={group_name}
                             />
+                            <label>Location</label>
+                            <input 
+                               className="form-control"
+                               type="text"
+                               placeholder="Please input an event location"
+                               name="group_name"
+                               onChange={this.onChange}
+                               value={group_name}
+                            />
+                            <label>Event Time</label>
+                            <div><DatePicker selected={null}/></div>
+                            <label>Start Vote Date</label>
+                            <div><DatePicker selected={null}/></div>
+                            <label>End Vote Date</label>
+                            <div><DatePicker selected={null}/></div>
                         </div>
                         <div className="form-group">
                             <button type="submit" className="btn btn-outline-info">
