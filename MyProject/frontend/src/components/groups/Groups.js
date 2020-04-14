@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getEvents, getGroups, getBelongedGroups,unsubscribeGroup, unsubscribeBelongedGroup, createGroup } from '../../actions/groups';
+import { getGroups, getBelongedGroups,unsubscribeGroup, unsubscribeBelongedGroup, createGroup } from '../../actions/groups';
 import { sendInvitation } from '../../actions/invitations';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +12,6 @@ export class Groups extends Component {
     };
 
     static PropTypes = {
-        getEvents: PropTypes.func.isRequired,
         groups: PropTypes.array.isRequired,
         getGroups: PropTypes.func.isRequired,
         getBelongedGroups: PropTypes.func.isRequired,
@@ -202,4 +201,4 @@ const mapStateToProps = state => ({
     belonged_groups:state.groups.belonged_groups,
 })
 
-export default connect(mapStateToProps, { getEvents, getGroups, getBelongedGroups, unsubscribeGroup, unsubscribeBelongedGroup, createGroup, sendInvitation })(Groups);
+export default connect(mapStateToProps, { getGroups, getBelongedGroups, unsubscribeGroup, unsubscribeBelongedGroup, createGroup, sendInvitation })(Groups);

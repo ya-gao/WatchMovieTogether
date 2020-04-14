@@ -15,7 +15,8 @@ export class Events extends Component {
     };
 
     componentDidMount() {
-        this.props.getEvents();
+        var groupId = this.props.location.search.substr(this.props.location.search.indexOf("=") + 1);
+        this.props.getEvents(groupId);
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -38,53 +39,51 @@ export class Events extends Component {
                 <div className="container">
                     <div className="row">
                     {
-                        this.props.groups.map(group => {
-                            const modalID = "inviteModal" + (group.id).toString();
+                        this.props.events.map(event => {
+                            const modalID = "inviteModal" + (event.id).toString();
                             const modalTarget = "#" + modalID;
 
                             return (
-                                <Fragment key={group.id}>
+                                <Fragment key={event.id}>
                                     <div className="col-4">
                                         <div className="card h-100">
                                             <div className="card-header d-flex justify-content-between">
-                                                {group.group_name}
-                                                <button 
-                                                    className="btn btn-outline-info btn-sm" data-toggle="modal" data-target={modalTarget}
-                                                    
-                                                >
-                                                    <i className="fas fa-user-plus" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                    Invite
-                                                </button>
+                                                {event.event_name}
                                             </div>
                                             
                                             <div className="card-body">
                                                 <ul className="list-group list-group-flush">
                                                     <li className="list-group-item">
-                                                        <i className="fas fa-user-tie" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Administrator: {group.owner}
+                                                        <i className="fas fa-map-marker-alt" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Location: {event.event_location}
                                                     </li>
                                                     <li className="list-group-item">
-                                                        <i className="fas fa-user-friends" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Group Member: {group.members}
+                                                        <i className="far fa-calendar" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Event Time: {event.event_time.substr(0, 10) + " " + event.event_time.substr(11, 8)}
+                                                    </li>
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-hourglass-start" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        Start Vote Date: {event.event_start_vote_time.substr(0, 10)}
+                                                    </li>
+                                                    <li className="list-group-item">
+                                                        <i className="fas fa-hourglass-end" style={{marginRight:"5px", color:"#be79df"}}></i>
+                                                        End Vote Date: {event.event_end_vote_time.substr(0, 10)}
                                                     </li>
                                                 </ul>
 
-                                                <Link className="text-decoration-none" to="/group">
-                                                    <button 
-                                                        className="btn btn-outline-info btn-sm btn-block"
-                                                        onClick={this.props.getEvents.bind(this, group.id)}
-                                                        style={{marginTop: "10px"}}
-                                                    >
-                                                        {" "}  
-                                                        Events
-                                                    </button>
-                                                </Link>
+                                                <button 
+                                                    className="btn btn-outline-info btn-sm btn-block"
+                                                    style={{marginTop: "10px"}}
+                                                >
+                                                    {" "}  
+                                                    View Movie List
+                                                </button>
 
                                                 <button 
                                                     className="btn btn-danger btn-sm btn-block"
                                                 >
                                                     {" "}  
-                                                    Unsubscribe
+                                                    Vote
                                                 </button>
                                             </div>   
                                         </div>
@@ -101,10 +100,10 @@ export class Events extends Component {
                                                 </div>
                                                 <div className="modal-body">
                                                     <form onSubmit={this.onSubmit}>
-                                                        <input type="hidden" name="group_id" value={group.id} />
+                                                        <input type="hidden" name="group_id" value={event.id} />
                                                         <div className="form-group">
                                                             <label htmlFor="group_name" className="col-form-label">Group:</label>
-                                                            <input type="text" name="group_name" className="form-control" value={group.group_name} readOnly />
+                                                            <input type="text" name="group_name" className="form-control" value={event.group_name} readOnly />
                                                         </div>
                                                         <div className="form-group">
                                                             <label htmlFor="Invited_username" className="col-form-label">Username:</label>
@@ -129,7 +128,7 @@ export class Events extends Component {
 }
 
 const mapStateToProps = state => ({
-    groups: state.groups.groups
+    events: state.events.events
 })
 
 export default connect(mapStateToProps, { getEvents })(Events);

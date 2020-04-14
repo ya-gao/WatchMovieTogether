@@ -23,8 +23,10 @@ class EventViewSet(viewsets.ModelViewSet):
 
     serializer_class = EventSerializer
 
-    
+    def get_queryset(self):
+        return Event.objects
 
+    
 class GorupUnsubscribeViewSet(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated,
