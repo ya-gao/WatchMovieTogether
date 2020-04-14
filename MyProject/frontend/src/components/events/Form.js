@@ -8,8 +8,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export class Form extends Component {
     state = {
-        group_name: '',
-        group_events: ''
+        event_name: '',
+        event_location: '',
+        event_time: null,
+        event_start_vote_time: null,
+        event_end_vote_time: null
     };
 
     static PropTypes = {
@@ -17,6 +20,9 @@ export class Form extends Component {
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
+    eventTimeOnChange = e => this.setState({event_time: e});
+    eventStartVoteTimeOnChange = e => this.setState({event_start_vote_time: e});
+    eventEndVoteTimeOnChange = e => this.setState({event_end_vote_time: e});
 
     onSubmit = e => {
         e.preventDefault();
@@ -44,7 +50,7 @@ export class Form extends Component {
                                className="form-control"
                                type="text"
                                placeholder="Please input an event name"
-                               name="group_name"
+                               name="event_name"
                                onChange={this.onChange}
                                value={group_name}
                             />
@@ -53,16 +59,34 @@ export class Form extends Component {
                                className="form-control"
                                type="text"
                                placeholder="Please input an event location"
-                               name="group_name"
+                               name="event_location"
                                onChange={this.onChange}
                                value={group_name}
                             />
                             <label>Event Time</label>
-                            <div><DatePicker selected={null}/></div>
+                            <div>
+                                <DatePicker
+                                    name="event_time"
+                                    onChange={this.eventTimeOnChange}
+                                    selected={this.state.event_time}
+                                />
+                            </div>
                             <label>Start Vote Date</label>
-                            <div><DatePicker selected={null}/></div>
+                            <div>
+                                <DatePicker
+                                    name="event_vote_start_time"
+                                    onChange={this.eventStartVoteTimeOnChange}
+                                    selected={this.state.event_start_vote_time}
+                                />
+                            </div>
                             <label>End Vote Date</label>
-                            <div><DatePicker selected={null}/></div>
+                            <div>
+                                <DatePicker
+                                    name="event_vote_end_time"
+                                    onChange={this.eventEndVoteTimeOnChange}
+                                    selected={this.state.event_end_vote_time}
+                                />
+                            </div>
                         </div>
                         <div className="form-group">
                             <button type="submit" className="btn btn-outline-info">
