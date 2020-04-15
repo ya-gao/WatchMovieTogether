@@ -46,7 +46,15 @@ export class Form extends Component {
         if(this.props.belongsToGroup !== undefined) {
             return (
                 <div className="card card-body mt-4 mb-4">
-                    <h2>Create Event</h2>
+                    <div className="card-header d-flex justify-content-between">
+                        <h2>Create Event</h2>
+                        <button 
+                            className="btn btn-outline-info btn-sm" //data-toggle="modal" data-target={modalTarget}   
+                        >
+                            <i className="far fa-hand-pointer" style={{marginRight:"5px", color:"#be79df"}}></i>
+                            Choose Movies
+                        </button>
+                    </div>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label>Name</label>
