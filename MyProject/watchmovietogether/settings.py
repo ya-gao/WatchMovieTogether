@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'frontend',
     'knox',
     'accounts',
-    'invitations'
+    'invitations',
+    'movies',
 ]
 
 REST_FRAMEWORK = {

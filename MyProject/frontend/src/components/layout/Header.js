@@ -3,12 +3,18 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
+import { getInvitations } from '../../actions/invitations';
 
 export class Header extends Component {
     static propTypes = {
       auth: PropTypes.object.isRequired,
+      getInvitations: PropTypes.func.isRequired,
       logout: PropTypes.func.isRequired
     };
+
+    componentDidMount() {
+      this.props.getInvitations();
+    }
 
     render() {
         const { isAuthenticated, user } = this.props.auth;
@@ -24,7 +30,7 @@ export class Header extends Component {
                 <Link to="/invitations" className="nav-link">
                   <span className="badge badge-light">
                     <i className="fas fa-bell" style={{marginRight: "5px"}}></i>
-                    4
+                    {this.props.invitations.length}
                   </span>
                 </Link>
             </li>
@@ -72,7 +78,8 @@ export class Header extends Component {
 
 // map state to props because we wanna access auth
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  invitations: state.invitations.invitations
 });
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, { getInvitations, logout })(Header);

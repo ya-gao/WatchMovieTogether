@@ -43,6 +43,7 @@ export const login = (username, password) => dispatch => {
               type: LOGIN_SUCCESS,
               payload: res.data
           });
+          location.reload(true);
       }).catch(err => {
           dispatch(returnErrors(err.response.data, err.response.status));
           dispatch({

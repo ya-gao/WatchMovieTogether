@@ -33,7 +33,7 @@ export class Form extends Component {
                 <h2>Create Group</h2>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Name</label>
+                        <label className="mb-0 mt-1">Name</label>
                         <input 
                            className="form-control"
                            type="text"

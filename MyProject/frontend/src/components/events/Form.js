@@ -46,7 +46,7 @@ export class Form extends Component {
         if(this.props.belongsToGroup !== undefined) {
             return (
                 <div className="card card-body mt-4 mb-4">
-                    <div className="card-header d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                         <h2>Create Event</h2>
                         <button 
                             className="btn btn-outline-info btn-sm" //data-toggle="modal" data-target={modalTarget}   
@@ -57,7 +57,7 @@ export class Form extends Component {
                     </div>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
-                            <label>Name</label>
+                            <label class="mb-0 mt-1">Name</label>
                             <input 
                                className="form-control"
                                type="text"
@@ -66,7 +66,7 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={this.state.event_name}
                             />
-                            <label>Location</label>
+                            <label class="mb-0 mt-1">Location</label>
                             <input 
                                className="form-control"
                                type="text"
@@ -75,15 +75,19 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={this.state.event_location}
                             />
-                            <label>Event Time</label>
+                            <label class="mb-0 mt-1">Event Time</label>
                             <div>
                                 <DatePicker
+                                    dateFormat="MM/dd/yyyy HH:mm:ss"
                                     name="event_time"
                                     onChange={this.eventTimeOnChange}
                                     selected={this.state.event_time}
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
                                 />
                             </div>
-                            <label>Start Vote Date</label>
+                            <label class="mb-0 mt-1">Start Vote Date</label>
                             <div>
                                 <DatePicker
                                     name="event_vote_start_time"
@@ -91,7 +95,7 @@ export class Form extends Component {
                                     selected={this.state.event_start_vote_time}
                                 />
                             </div>
-                            <label>End Vote Date</label>
+                            <label class="mb-0 mt-1">End Vote Date</label>
                             <div>
                                 <DatePicker
                                     name="event_vote_end_time"

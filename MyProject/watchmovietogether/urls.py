@@ -6,5 +6,6 @@ urlpatterns = [
     path('', include('wmt.urls')),
     path('', include('accounts.urls')),
     path('', include('invitations.urls')),
+    path('', include('movies.urls')),
     path('admin/', admin.site.urls)
 ]
