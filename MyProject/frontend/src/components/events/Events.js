@@ -27,7 +27,7 @@ export class Events extends Component {
 
                             return (
                                 <Fragment key={event.id}>
-                                    <div className="col-4">
+                                    <div className="col-4 mb-3">
                                         <div className="card h-100">
                                             <div className="card-header d-flex justify-content-between">
                                                 {event.event_name}

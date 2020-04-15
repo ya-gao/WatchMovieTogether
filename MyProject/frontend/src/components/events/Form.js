@@ -2,21 +2,22 @@ import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createGroup, getGroups } from '../../actions/groups';
+import { createEvent } from '../../actions/events';
 
 import "react-datepicker/dist/react-datepicker.css";
 
 export class Form extends Component {
     state = {
+        group: '',
         event_name: '',
         event_location: '',
-        event_time: null,
         event_start_vote_time: null,
-        event_end_vote_time: null
+        event_end_vote_time: null,
+        event_time: null
     };
 
     static PropTypes = {
-        createGroup: PropTypes.func.isRequired
+        createEvent: PropTypes.func.isRequired
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -27,19 +28,22 @@ export class Form extends Component {
     // TODO: change to create event
     onSubmit = e => {
         e.preventDefault();
-        const { group_name, group_events } = this.state;
-        const group = { group_name, group_events };
-        this.props.createGroup(group);
+        this.state.group = this.props.group
+        const { group, event_name, event_location, event_start_vote_time, event_end_vote_time, event_time } = this.state;
+        const event = { group, event_name, event_location, event_start_vote_time, event_end_vote_time, event_time };
+        this.props.createEvent(event);
         this.setState({
-            group_name: '',
-            group_events: ''
+            group: '',
+            event_name: '',
+            event_location: '',
+            event_time: null,
+            event_start_vote_time: null,
+            event_end_vote_time: null
         });
-        location.reload(true);
+        //location.reload(true);
     };
 
     render() {
-        const { group_name } = this.state;
-
         if(this.props.belongsToGroup !== undefined) {
             return (
                 <div className="card card-body mt-4 mb-4">
@@ -53,7 +57,7 @@ export class Form extends Component {
                                placeholder="Please input an event name"
                                name="event_name"
                                onChange={this.onChange}
-                               value={group_name}
+                               value={this.state.event_name}
                             />
                             <label>Location</label>
                             <input 
@@ -62,7 +66,7 @@ export class Form extends Component {
                                placeholder="Please input an event location"
                                name="event_location"
                                onChange={this.onChange}
-                               value={group_name}
+                               value={this.state.event_location}
                             />
                             <label>Event Time</label>
                             <div>
@@ -105,7 +109,8 @@ export class Form extends Component {
 }
 
 const mapStateToProps = state => ({
+    group: location.hash.substr(location.hash.indexOf("=") + 1),
     belongsToGroup: state.groups.groups.find(group => group.id == location.hash.substr(location.hash.indexOf("=") + 1))
 })
 
-export default connect(mapStateToProps, { createGroup , getGroups})(Form);
+export default connect(mapStateToProps, { createEvent })(Form);

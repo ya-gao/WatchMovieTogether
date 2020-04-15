@@ -1,8 +1,22 @@
 import axios from 'axios';
-import { returnErrors } from './messages';
+import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_EVENTS } from './types';
+import { CREATE_EVENT, GET_EVENTS } from './types';
+
+// Create event
+export const createEvent = (event) => (dispatch, getState) => {
+  axios
+    .post('/api/events/', event, tokenConfig(getState))
+    .then(response => {
+        dispatch(createMessage({ createEvent: 'Group Created'}));
+        dispatch({
+            type: CREATE_EVENT,
+            payload: response.data
+        });
+    })
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
 
 // Get events
 export const getEvents = (groupId) => (dispatch, getState) => {
