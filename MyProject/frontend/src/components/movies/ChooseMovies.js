@@ -29,31 +29,47 @@ export class Form extends Component {
     searchMovies = e => {
         e.preventDefault();
 
-        let request = new XMLHttpRequest();
+        let nameSearchReq = new XMLHttpRequest();
         const searchString = document.getElementById("search-name").value;
 
         // Clear previous search
         document.getElementById("movie-list").innerHTML = "";
 
-        request.open("Get", "https://api.themoviedb.org/3/search/movie?api_key=f53857424b1f37f6e29ec176d40a4856&query=" + searchString);
-        request.send();
-        request.onload = () => {
-            if(request.status === 200) {
+        nameSearchReq.open("Get", "https://api.themoviedb.org/3/search/movie?api_key=f53857424b1f37f6e29ec176d40a4856&query=" + searchString);
+        nameSearchReq.send();
+        nameSearchReq.onload = () => {
+            if(nameSearchReq.status === 200) {
                 var movieList = "";
                 var length = 20;
-                var response = JSON.parse(request.response);
+                var nameSearchRes = JSON.parse(nameSearchReq.response);
 
-                if(response.results.length < 20) {
-                    length = response.results.length;
+                if(nameSearchRes.results.length < 20) {
+                    length = nameSearchRes.results.length;
                 }
 
                 for(var i = 0; i < length; i++) {
-                    movieList += "<li>Id: " + response.results[i].id + ", Title: " + response.results[i].title + "</li>";
+                    let trailerSearchReq = new XMLHttpRequest();
+                    trailerSearchReq.open("Get", "https://api.themoviedb.org/3/movie/" + nameSearchRes.results[i].id + "/trailers?api_key=f53857424b1f37f6e29ec176d40a4856")
+                    trailerSearchReq.send();
+                    trailerSearchReq.onload = function() {
+                        var trailerSearchRes = JSON.parse(trailerSearchReq.response);
+                        var youTubeLink = "Not available";
+
+                        // Get YouTube link
+                        if(trailerSearchRes.youtube.length) {
+                            youTubeLink = "http://youtube.com/watch?v=" + trailerSearchRes.youtube[0].source;
+                        }
+
+                        movieList += "<li>Id: " + nameSearchRes.results[this.i].id + ", Title: " + nameSearchRes.results[this.i].title + ", YouTube Link = " + youTubeLink + "</li>";
+
+                        // Got all trailers. Display search results
+                        if(this.i == length - 1) {
+                            document.getElementById("movie-list").innerHTML = movieList;            
+                        }
+                    }.bind({i: i});
                 }
-                
-                document.getElementById("movie-list").innerHTML = movieList;
             } else {
-                console.log(`Error ${request.status} ${request.statusText}`);
+                console.log(`Error ${nameSearchReq.status} ${nameSearchReq.statusText}`);
             }
         }
     };
