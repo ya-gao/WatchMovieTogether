@@ -25,7 +25,6 @@ export class Form extends Component {
     eventStartVoteTimeOnChange = e => this.setState({event_start_vote_time: e});
     eventEndVoteTimeOnChange = e => this.setState({event_end_vote_time: e});
 
-    // TODO: change to create event
     onSubmit = e => {
         e.preventDefault();
         this.state.group = this.props.group
@@ -40,7 +39,7 @@ export class Form extends Component {
             event_start_vote_time: null,
             event_end_vote_time: null
         });
-        //location.reload(true);
+        location.refresh();
     };
 
     render() {
