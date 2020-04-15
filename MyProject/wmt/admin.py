@@ -3,7 +3,7 @@ from .models import GroupExtend, Event
 
 class GroupExtendAdmin(admin.ModelAdmin):
     save_on_top = True
-    list_display = ('id','group_name', 'group_events', 'owner')
+    list_display = ('id','group_name', 'owner')
     filter_horizontal = ('members',)
 
 # Register your models here.

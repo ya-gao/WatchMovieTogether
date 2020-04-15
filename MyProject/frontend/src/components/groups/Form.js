@@ -5,8 +5,7 @@ import { createGroup, getGroups } from '../../actions/groups';
 
 export class Form extends Component {
     state = {
-        group_name: '',
-        group_events: ''
+        group_name: ''
     };
 
     static PropTypes = {
@@ -17,12 +16,11 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const { group_name, group_events } = this.state;
-        const group = { group_name, group_events };
+        const { group_name } = this.state;
+        const group = { group_name };
         this.props.createGroup(group);
         this.setState({
-            group_name: '',
-            group_events: ''
+            group_name: ''
         });
         location.reload(true);
     };

@@ -8,7 +8,6 @@ from datetime import datetime
 # Create your models here.
 class GroupExtend(models.Model):
     group_name = models.CharField(max_length=100, default="New Group")
-    group_events = models.CharField(max_length=100, default="no events")
     owner = models.ForeignKey(User, related_name="group_owned", on_delete=models.CASCADE, null=True)
     members = models.ManyToManyField(User, blank=True)
     #group = models.OneToOneField(Group, related_name="name", on_delete=models.CASCADE)
