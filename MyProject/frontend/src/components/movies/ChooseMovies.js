@@ -32,12 +32,26 @@ export class Form extends Component {
         let request = new XMLHttpRequest();
         const searchString = document.getElementById("search-name").value;
 
+        // Clear previous search
+        document.getElementById("movie-list").innerHTML = "";
+
         request.open("Get", "https://api.themoviedb.org/3/search/movie?api_key=f53857424b1f37f6e29ec176d40a4856&query=" + searchString);
         request.send();
         request.onload = () => {
-            console.log(request);
             if(request.status === 200) {
-                console.log(JSON.parse(request.response));
+                var movieList = "";
+                var length = 20;
+                var response = JSON.parse(request.response);
+
+                if(response.results.length < 20) {
+                    length = response.results.length;
+                }
+
+                for(var i = 0; i < length; i++) {
+                    movieList += "<li>Id: " + response.results[i].id + ", Title: " + response.results[i].title + "</li>";
+                }
+                
+                document.getElementById("movie-list").innerHTML = movieList;
             } else {
                 console.log(`Error ${request.status} ${request.statusText}`);
             }
@@ -59,6 +73,7 @@ export class Form extends Component {
                             name="movie_name"
                         />
                     </div>
+                    <ul id="movie-list"></ul>
                     <div className="form-group">
                         <button
                             className="btn btn-outline-info"
