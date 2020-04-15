@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createEvent } from '../../actions/events';
+// import {getMovies} from '../../actions/movies';
 
-export class Form extends Component {
+export class ChooseMovies extends Component {
     state = {
         group: '',
         event_name: '',
@@ -12,9 +13,10 @@ export class Form extends Component {
         event_start_vote_time: null,
         event_end_vote_time: null,
         event_time: null,
-        movie_list: ''
+        movie_list: [],
     };
 
+    
     static PropTypes = {
         createEvent: PropTypes.func.isRequired
     }
@@ -41,7 +43,7 @@ export class Form extends Component {
         nameSearchReq.send();
         nameSearchReq.onload = () => {
             if(nameSearchReq.status === 200) {
-                var movieList = "";
+                var movieList = [];
                 var length = 20;
                 var nameSearchRes = JSON.parse(nameSearchReq.response);
 
@@ -62,8 +64,10 @@ export class Form extends Component {
                             if(trailerSearchRes.youtube.length) {
                                 youTubeLink = "http://youtube.com/watch?v=" + trailerSearchRes.youtube[0].source;
                             }
-    
-                            movieList += "<li>Id: " + nameSearchRes.results[this.i].id + ", Title: " + nameSearchRes.results[this.i].title + ", YouTube Link = " + youTubeLink + "<ReactPlayer url='" + youTubeLink + "' /></li>";
+                            var movie = {movie_id: nameSearchRes.results[this.i].id,
+                                         movie_title: nameSearchRes.results[this.i].title,
+                                         movie_youtubeLink: youTubeLink}
+                            movieList.push(movie);
     
                             // Got all trailers. Display search results
                             if(this.i == length - 1) {
@@ -72,13 +76,16 @@ export class Form extends Component {
                         }.bind({i: i});
                     }
                 }).then(function(movieList) {
-                    this.state.movie_list = movieList;
+                    this.setState({ movie_list: movieList });
+                    // this.state.movie_list = movieList;
                 }.bind(this));
                 
             } else {
                 console.log(`Error ${nameSearchReq.status} ${nameSearchReq.statusText}`);
             }
         }
+
+        // this.props.getMovies();
     };
 
     render() {
@@ -96,7 +103,7 @@ export class Form extends Component {
                             name="movie_name"
                         />
                     </div>
-                    <ul id="movie-list" dangerouslySetInnerHTML={{__html: this.state.movie_list}}></ul>
+                 
                     <div className="form-group">
                         <button
                             className="btn btn-outline-info"
@@ -106,6 +113,22 @@ export class Form extends Component {
                             Search
                         </button>
                     </div>
+
+                    <ul id="movie-list" >
+                        {console.log(this.state.movie_list)}
+                        {this.state.movie_list.map(movie=>{
+                            return (<Fragment>
+                                <li>
+                                    {movie.movie_id}<br></br>
+                                    {movie.movie_title}<br></br>
+                                    {movie.movie_youtubeLink}<br></br>
+                                    <ReactPlayer url={movie.movie_youtubeLink}/>
+                                </li><br></br>
+                                </Fragment>);
+                            })
+                        }
+                    </ul>
+
                     <div className="form-group">
                         <button
                             className="btn btn-outline-info"
@@ -122,7 +145,8 @@ export class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-    reactPlayer: <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+    // movies: state.movies,
+    // reactPlayer: <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 })
 
-export default connect(mapStateToProps, { createEvent })(Form);
+export default connect(mapStateToProps, { createEvent })(ChooseMovies);
