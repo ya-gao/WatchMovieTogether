@@ -1,7 +1,7 @@
 from rest_framework import routers
-# from .api import InvitationViewSet, DenyInvitationViewSet
+from .api import MovieViewSet
 
 router = routers.DefaultRouter()
-# router.register('api/invitations', InvitationViewSet, 'invitations')
+router.register('api/movies', MovieViewSet, 'movies')
 # router.register('api/denyInvitations', DenyInvitationViewSet, 'invitations')
 urlpatterns = router.urls

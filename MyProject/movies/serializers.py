@@ -3,9 +3,6 @@
 from rest_framework import serializers
 from .models import Movie
 
-
-
-
 # Movie Serializer
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:

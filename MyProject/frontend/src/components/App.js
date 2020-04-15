@@ -37,7 +37,7 @@ class App extends Component {
             <Fragment>
                 <Header />
                 <Alerts />
-                <div className="container">
+                <div className="container position-relative">
                     <Switch>
                         <PrivateRoute exact path="/" component={Dashboard} />
                         <PrivateRoute exact path="/events" component={Events} />

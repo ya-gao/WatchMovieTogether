@@ -25,6 +25,11 @@ export class Form extends Component {
     eventStartVoteTimeOnChange = e => this.setState({event_start_vote_time: e});
     eventEndVoteTimeOnChange = e => this.setState({event_end_vote_time: e});
 
+    openChooseMoviesPopUp = () => {
+        // Show Choose Movies popup
+        document.getElementById("choose-movies").classList.remove("d-none");
+    }
+    
     onSubmit = e => {
         e.preventDefault();
         this.state.group = this.props.group
@@ -49,7 +54,8 @@ export class Form extends Component {
                     <div className="d-flex justify-content-between">
                         <h2>Create Event</h2>
                         <button 
-                            className="btn btn-outline-info btn-sm" //data-toggle="modal" data-target={modalTarget}   
+                            className="btn btn-outline-info btn-sm"
+                            onClick={this.openChooseMoviesPopUp}
                         >
                             <i className="far fa-hand-pointer" style={{marginRight:"5px", color:"#be79df"}}></i>
                             Choose Movies
@@ -57,7 +63,7 @@ export class Form extends Component {
                     </div>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
-                            <label class="mb-0 mt-1">Name</label>
+                            <label className="mb-0 mt-1">Name</label>
                             <input 
                                className="form-control"
                                type="text"
@@ -66,7 +72,7 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={this.state.event_name}
                             />
-                            <label class="mb-0 mt-1">Location</label>
+                            <label className="mb-0 mt-1">Location</label>
                             <input 
                                className="form-control"
                                type="text"
@@ -75,7 +81,7 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={this.state.event_location}
                             />
-                            <label class="mb-0 mt-1">Event Time</label>
+                            <label className="mb-0 mt-1">Event Time</label>
                             <div>
                                 <DatePicker
                                     dateFormat="MM/dd/yyyy HH:mm:ss"
@@ -87,7 +93,7 @@ export class Form extends Component {
                                     timeIntervals={15}
                                 />
                             </div>
-                            <label class="mb-0 mt-1">Start Vote Date</label>
+                            <label className="mb-0 mt-1">Start Vote Date</label>
                             <div>
                                 <DatePicker
                                     name="event_vote_start_time"
@@ -95,7 +101,7 @@ export class Form extends Component {
                                     selected={this.state.event_start_vote_time}
                                 />
                             </div>
-                            <label class="mb-0 mt-1">End Vote Date</label>
+                            <label className="mb-0 mt-1">End Vote Date</label>
                             <div>
                                 <DatePicker
                                     name="event_vote_end_time"
