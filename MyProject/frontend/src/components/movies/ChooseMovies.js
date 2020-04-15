@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createEvent } from '../../actions/events';
@@ -10,7 +11,8 @@ export class Form extends Component {
         event_location: '',
         event_start_vote_time: null,
         event_end_vote_time: null,
-        event_time: null
+        event_time: null,
+        movie_list: ''
     };
 
     static PropTypes = {
@@ -47,27 +49,32 @@ export class Form extends Component {
                     length = nameSearchRes.results.length;
                 }
 
-                for(var i = 0; i < length; i++) {
-                    let trailerSearchReq = new XMLHttpRequest();
-                    trailerSearchReq.open("Get", "https://api.themoviedb.org/3/movie/" + nameSearchRes.results[i].id + "/trailers?api_key=f53857424b1f37f6e29ec176d40a4856")
-                    trailerSearchReq.send();
-                    trailerSearchReq.onload = function() {
-                        var trailerSearchRes = JSON.parse(trailerSearchReq.response);
-                        var youTubeLink = "Not available";
-
-                        // Get YouTube link
-                        if(trailerSearchRes.youtube.length) {
-                            youTubeLink = "http://youtube.com/watch?v=" + trailerSearchRes.youtube[0].source;
-                        }
-
-                        movieList += "<li>Id: " + nameSearchRes.results[this.i].id + ", Title: " + nameSearchRes.results[this.i].title + ", YouTube Link = " + youTubeLink + "</li>";
-
-                        // Got all trailers. Display search results
-                        if(this.i == length - 1) {
-                            document.getElementById("movie-list").innerHTML = movieList;            
-                        }
-                    }.bind({i: i});
-                }
+                new Promise(function(resolve) {
+                    for(var i = 0; i < length; i++) {
+                        let trailerSearchReq = new XMLHttpRequest();
+                        trailerSearchReq.open("Get", "https://api.themoviedb.org/3/movie/" + nameSearchRes.results[i].id + "/trailers?api_key=f53857424b1f37f6e29ec176d40a4856")
+                        trailerSearchReq.send();
+                        trailerSearchReq.onload = function() {
+                            var trailerSearchRes = JSON.parse(trailerSearchReq.response);
+                            var youTubeLink = "Not available";
+    
+                            // Get YouTube link
+                            if(trailerSearchRes.youtube.length) {
+                                youTubeLink = "http://youtube.com/watch?v=" + trailerSearchRes.youtube[0].source;
+                            }
+    
+                            movieList += "<li>Id: " + nameSearchRes.results[this.i].id + ", Title: " + nameSearchRes.results[this.i].title + ", YouTube Link = " + youTubeLink + "<ReactPlayer url='" + youTubeLink + "' /></li>";
+    
+                            // Got all trailers. Display search results
+                            if(this.i == length - 1) {
+                                resolve(movieList);
+                            }
+                        }.bind({i: i});
+                    }
+                }).then(function(movieList) {
+                    this.state.movie_list = movieList;
+                }.bind(this));
+                
             } else {
                 console.log(`Error ${nameSearchReq.status} ${nameSearchReq.statusText}`);
             }
@@ -89,7 +96,7 @@ export class Form extends Component {
                             name="movie_name"
                         />
                     </div>
-                    <ul id="movie-list"></ul>
+                    <ul id="movie-list" dangerouslySetInnerHTML={{__html: this.state.movie_list}}></ul>
                     <div className="form-group">
                         <button
                             className="btn btn-outline-info"
@@ -115,8 +122,7 @@ export class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-    // group: location.hash.substr(location.hash.indexOf("=") + 1),
-    // belongsToGroup: state.groups.groups.find(group => group.id == location.hash.substr(location.hash.indexOf("=") + 1))
+    reactPlayer: <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 })
 
 export default connect(mapStateToProps, { createEvent })(Form);
