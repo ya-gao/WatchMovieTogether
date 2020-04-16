@@ -27,6 +27,9 @@ export class Form extends Component {
 
     openChooseMoviesPopUp = () => {
         // Show Choose Movies popup
+        document.getElementById("create-event").classList.add("d-none");
+        document.getElementById("events-header").classList.add("d-none");
+        document.getElementById("events-list").classList.add("d-none");
         document.getElementById("choose-movies").classList.remove("d-none");
     }
     
@@ -50,7 +53,7 @@ export class Form extends Component {
     render() {
         if(this.props.belongsToGroup !== undefined) {
             return (
-                <div className="card card-body mt-4 mb-4">
+                <div id="create-event" className="card card-body mt-4 mb-4">
                     <div className="d-flex justify-content-between">
                         <h2>Create Event</h2>
                         <button 

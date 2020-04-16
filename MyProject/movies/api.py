@@ -18,3 +18,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         pass
+    
+    def create(self, request, pk=None):
+        print(f"event id  = {pk}")
+        print(request.POST.get('movie_list'))

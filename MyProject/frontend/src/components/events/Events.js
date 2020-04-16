@@ -18,8 +18,8 @@ export class Events extends Component {
     render() {
         return (
             <Fragment>
-                <h2>Events</h2>
-                <div className="container">
+                <h2 id="events-header">Events</h2>
+                <div id="events-list" className="container">
                     <div className="row">
                     {
                         this.props.events.map(event => {
