@@ -16,6 +16,9 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
+    def create(self, validated_data):
+        print(validated_data)
+
 
 # NewGroupManager Serializer
 class UserNameSerializer(serializers.ModelSerializer):

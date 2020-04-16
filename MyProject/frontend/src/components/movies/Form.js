@@ -39,15 +39,7 @@ export class Form extends Component {
         this.state.group = this.props.group
         const { group, event_name, event_location, event_start_vote_time, event_end_vote_time, event_time } = this.state;
         const event = { group, event_name, event_location, event_start_vote_time, event_end_vote_time, event_time };
-        this.props.createEvent(event);
-        this.setState({
-            group: '',
-            event_name: '',
-            event_location: '',
-            event_time: null,
-            event_start_vote_time: null,
-            event_end_vote_time: null
-        });
+      
         // location.refresh();
         // document.getElementById("chosen_movie_list")
         var chosen_movie_list = [];
@@ -62,6 +54,15 @@ export class Form extends Component {
             });
         }
 
+        this.props.createEvent(event, chosen_movie_list);
+        // this.setState({
+        //     group: '',
+        //     event_name: '',
+        //     event_location: '',
+        //     event_time: null,
+        //     event_start_vote_time: null,
+        //     event_end_vote_time: null
+        // });
         console.log(chosen_movie_list);
     };
 

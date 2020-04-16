@@ -5,9 +5,9 @@ import { tokenConfig } from './auth';
 import { CREATE_EVENT, GET_EVENTS } from './types';
 
 // Create event
-export const createEvent = (event) => (dispatch, getState) => {
+export const createEvent = (event, chosen_movie_list) => (dispatch, getState) => {
   axios
-    .post('/api/events/', event, tokenConfig(getState))
+    .post('/api/events/', {event_pass:event, movie_list_pass: chosen_movie_list}, tokenConfig(getState))
     .then(response => {
         dispatch(createMessage({ createEvent: 'Group Created'}));
         dispatch({
