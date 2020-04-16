@@ -13,7 +13,8 @@ export class Form extends Component {
         event_location: '',
         event_start_vote_time: null,
         event_end_vote_time: null,
-        event_time: null
+        event_time: null,
+        chosen_movie_list:[],
     };
 
     static PropTypes = {
@@ -47,7 +48,21 @@ export class Form extends Component {
             event_start_vote_time: null,
             event_end_vote_time: null
         });
-        location.refresh();
+        // location.refresh();
+        // document.getElementById("chosen_movie_list")
+        var chosen_movie_list = [];
+        var chosenMovies = document.getElementsByClassName("chosen-movie");
+        for(var i = 0; i < chosenMovies.length; i++) {
+            chosen_movie_list.push({
+                movie_id: chosenMovies[i].id.substr(6),
+                movie_overview: chosenMovies[i].getAttribute("data-overview"),
+                movie_title: chosenMovies[i].getAttribute("data-title"),
+                movie_year: chosenMovies[i].getAttribute("data-year"),
+                movie_youtubeLink: chosenMovies[i].getAttribute("data-youtube-link")
+            });
+        }
+
+        console.log(chosen_movie_list);
     };
 
     render() {
@@ -84,33 +99,41 @@ export class Form extends Component {
                                onChange={this.onChange}
                                value={this.state.event_location}
                             />
-                            <label className="mb-0 mt-1">Event Time</label>
-                            <div>
-                                <DatePicker
-                                    dateFormat="MM/dd/yyyy HH:mm:ss"
-                                    name="event_time"
-                                    onChange={this.eventTimeOnChange}
-                                    selected={this.state.event_time}
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    timeIntervals={15}
-                                />
-                            </div>
-                            <label className="mb-0 mt-1">Start Vote Date</label>
-                            <div>
-                                <DatePicker
-                                    name="event_vote_start_time"
-                                    onChange={this.eventStartVoteTimeOnChange}
-                                    selected={this.state.event_start_vote_time}
-                                />
-                            </div>
-                            <label className="mb-0 mt-1">End Vote Date</label>
-                            <div>
-                                <DatePicker
-                                    name="event_vote_end_time"
-                                    onChange={this.eventEndVoteTimeOnChange}
-                                    selected={this.state.event_end_vote_time}
-                                />
+                            <div className="d-flex">
+                                <div>
+                                    <label className="mb-0 mt-1">Event Time</label>
+                                    <div>
+                                        <DatePicker
+                                            dateFormat="MM/dd/yyyy HH:mm:ss"
+                                            name="event_time"
+                                            onChange={this.eventTimeOnChange}
+                                            selected={this.state.event_time}
+                                            showTimeSelect
+                                            timeFormat="HH:mm"
+                                            timeIntervals={15}
+                                        />
+                                    </div>
+                                    <label className="mb-0 mt-1">Start Vote Date</label>
+                                    <div>
+                                        <DatePicker
+                                            name="event_vote_start_time"
+                                            onChange={this.eventStartVoteTimeOnChange}
+                                            selected={this.state.event_start_vote_time}
+                                        />
+                                    </div>
+                                    <label className="mb-0 mt-1">End Vote Date</label>
+                                    <div>
+                                        <DatePicker
+                                            name="event_vote_end_time"
+                                            onChange={this.eventEndVoteTimeOnChange}
+                                            selected={this.state.event_end_vote_time}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="ml-5">
+                                    <label className="mb-0 mt-1">Movies:</label>
+                                    <ul id="chosen-movies-list"></ul>
+                                </div>
                             </div>
                         </div>
                         <div className="form-group">

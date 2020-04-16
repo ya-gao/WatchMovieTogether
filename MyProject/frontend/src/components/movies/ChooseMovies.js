@@ -14,6 +14,7 @@ export class ChooseMovies extends Component {
         event_end_vote_time: null,
         event_time: null,
         movie_list: [],
+        chosen_movies_list: []
     };
 
     
@@ -27,12 +28,40 @@ export class ChooseMovies extends Component {
     closeChooseMoviesPopUp = e => {
         e.preventDefault();
 
-        // Hide Choose movies pop-up
-        document.getElementById("choose-movies").classList.add("d-none");
-        document.getElementById("create-event").classList.remove("d-none");
-        document.getElementById("events-header").classList.remove("d-none");
-        document.getElementById("events-list").classList.remove("d-none");
+        var checkboxes = document.getElementsByClassName("movies-checkbox");
+        var get_chosen_movies_list = this.state.chosen_movies_list;
+
+        // Append checked movies to chosen movies list
+        for(var i = 0; i < checkboxes.length; i++) {
+            if(checkboxes[i].checked) {
+                document.getElementById("chosen-movies-list").innerHTML += '<li class="chosen-movie" id="movie-' + checkboxes[i].id + '" data-overview="' + checkboxes[i].getAttribute("data-overview") + '" data-title="' + checkboxes[i].getAttribute("data-title") + '" data-year="' + checkboxes[i].getAttribute("data-year") + '" data-youtube-link="' + checkboxes[i].getAttribute("data-youtube-link") + '">' + checkboxes[i].getAttribute("data-title") + '<i class="far fa-trash-alt ml-1" onclick="deleteMovie(this)"></i></li>'
+                get_chosen_movies_list.push({
+                    movie_id: checkboxes[i].id,
+                    movie_overview: checkboxes[i].getAttribute("data-overview"),
+                    movie_title: checkboxes[i].getAttribute("data-title"),
+                    movie_year: checkboxes[i].getAttribute("data-year"),
+                    movie_youtubeLink: checkboxes[i].getAttribute("data-youtube-link")
+                });
+            }
+        }
+
+        this.setState({ chosen_movies_list: get_chosen_movies_list }, function() {
+            // Hide Choose movies pop-up
+            document.getElementById("choose-movies").classList.add("d-none");
+            document.getElementById("create-event").classList.remove("d-none");
+            document.getElementById("events-header").classList.remove("d-none");
+            document.getElementById("events-list").classList.remove("d-none");
+
+            // Clear search
+            this.setState({movie_list: []});
+            document.getElementById("search-name").value = "";
+        });
     };
+
+    deleteMovie = e => {
+        console.log("Delete movie");
+
+    }
 
     searchMovies = e => {
         e.preventDefault();
@@ -142,7 +171,7 @@ export class ChooseMovies extends Component {
                         {this.state.movie_list.map(movie=>{
                             return (<Fragment>
                                 <div className="bg-light col-6 mb-3 pb-3 pt-1" data-id={movie.movie_id} data-title={movie.movie_title}>
-                                    <input className="mr-2" type="checkbox" id={movie.movie_id}/>
+                                    <input className="movies-checkbox mr-2" type="checkbox" id={movie.movie_id} data-overview={movie.movie_overview} data-title={movie.movie_title} data-year={movie.movie_year} data-youtube-link={movie.movie_youtubeLink}/>
                                     <b>{movie.movie_title}</b> - {movie.movie_year}<br></br>
                                     <p className="mb-0 overflow-auto" style={{height: '4.5rem'}}>{movie.movie_overview}</p><br></br>
                                     <p className="d-none font-weight-bold text-danger youTubeLink">{movie.movie_youtubeLink}</p><br></br>
