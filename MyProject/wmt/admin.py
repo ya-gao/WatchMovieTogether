@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import GroupExtend, Event
+from .models import GroupExtend, Event, Vote
 
 
 class GroupExtendAdmin(admin.ModelAdmin):
@@ -19,3 +19,5 @@ class EventAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Event, EventAdmin)
+
+admin.site.register(Vote)

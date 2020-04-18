@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { CREATE_EVENT, GET_EVENTS } from './types';
+import { CREATE_EVENT, GET_EVENTS,CREATE_VOTE } from './types';
 
 // Create event
 export const createEvent = (event, chosen_movie_list) => (dispatch, getState) => {
@@ -31,3 +31,16 @@ export const getEvents = (groupId) => (dispatch, getState) => {
           });
       }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
+
+export const createVote= (movie_id, event_id)=> (dispatch, getState) => {
+  axios
+    .post( '/api/vote/' , {movie_id_pass: movie_id, event_id_pass: event_id},tokenConfig(getState))
+    .then(response => {
+        dispatch(createMessage({ createVote: 'Group Created'}));
+        dispatch({
+            type: CREATE_VOTE,
+            payload: response.data
+        });
+    })
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};

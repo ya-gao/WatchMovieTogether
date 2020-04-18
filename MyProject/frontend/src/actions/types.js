@@ -1,6 +1,8 @@
 export const CREATE_EVENT = "CREATE_EVENT";
 export const GET_EVENTS = "GET_EVENTS";
 
+export const CREATE_VOTE = "CREATE_VOTE";
+
 export const GET_GROUPS = "GET_GROUPS";
 export const GET_BELONGED_GROUPS = "GET_BELONGED_GROUPS";
 export const UNSUBSCRIBE_GROUP = "UNSUBSCRIBE_GROUP";

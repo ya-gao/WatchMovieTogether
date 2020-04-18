@@ -11,7 +11,7 @@ class Vote(models.Model):
     movie = models.ForeignKey(Movie, related_name="vote_movie", on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{event} user {user.username} vote {movie}"
+        return f"{self.user.username} vote {self.movie}"
 
 # Create your models here.
 class GroupExtend(models.Model):

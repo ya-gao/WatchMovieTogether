@@ -1,9 +1,36 @@
-from .models import Event, GroupExtend
+from .models import Event, GroupExtend, Vote
 from rest_framework import viewsets, permissions
-from .serializers import ShowGroupSerializer, GroupSerializer, EventSerializer
+from .serializers import ShowGroupSerializer, GroupSerializer, EventSerializer, VoteSerializer
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from movies.models import Movie
+
+class VoteViewSet(viewsets.ModelViewSet):
+    serializer_class= VoteSerializer
+
+    def create(self, request):
+        print("creating Votes")
+        current_movie= Movie.objects.get(movie_id=request.data['movie_id_pass'])
+        current_user = request.user
+       
+        event = Event.objects.get(id=request.data['event_id_pass'])
+        vote_quertset = event.votes.filter(user=current_user)
+
+        if not vote_quertset:
+
+            vote = Vote.objects.create(
+                user = current_user,
+                movie = current_movie
+            )
+            vote.save()
+            event.votes.add(vote)
+        else:
+            vote = event.votes.get(user=current_user)
+            vote.movie = current_movie
+            vote.save()
+        event.save()
+        event_serializer = EventSerializer(event)
+        return Response(event_serializer.data)
 
 
 class GroupInViewSet(viewsets.ModelViewSet):
@@ -31,11 +58,8 @@ class EventViewSet(viewsets.ModelViewSet):
         event_info = request.data['event_pass']
         current_group = GroupExtend.objects.get(id=event_info['group'])
         current_event_start_vote_time = event_info['event_start_vote_time']
-        print(current_event_start_vote_time)
         current_event_end_vote_time = event_info['event_end_vote_time']
-        print(current_event_end_vote_time)
         current_event_time = event_info['event_time']
-        print(current_event_time)
         event = Event.objects.create(
             group=current_group,
             event_name=event_info['event_name'],

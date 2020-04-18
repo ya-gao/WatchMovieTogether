@@ -2,9 +2,13 @@ import React, { Component, Fragment } from 'react';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEvents } from '../../actions/events';
+import { getEvents, createVote } from '../../actions/events';
 
 export class Events extends Component {
+    state = {
+        choice: ''
+    };
+
     static PropTypes = {
         events: PropTypes.array.isRequired,
         getEvents: PropTypes.func.isRequired
@@ -14,6 +18,18 @@ export class Events extends Component {
         var groupId = location.hash.substr(location.hash.indexOf("=") + 1);
         this.props.getEvents(groupId);
     }
+
+    onChange = e => {
+        console.log(e.target.value);
+        this.setState({ choice: e.target.value });
+    }
+
+    onSubmit = (event_id, e) => {
+        e.preventDefault();
+        const { choice } = this.state;
+        this.props.createVote(choice, event_id);
+        this.setState({choice: ''});
+    };
 
     render() {
         return (
@@ -77,7 +93,7 @@ export class Events extends Component {
                                                     </button>
                                                 </div>
                                                 <div className="modal-body">
-                                                    <form onSubmit={this.onSubmit}>
+                                                    <form onSubmit={this.onSubmit.bind(this, event.id)}>
                                                         <input type="hidden" name="event_id" value={event.id} />
                                                         <div className="form-group">
                                                             <label htmlFor="event_name" className="col-form-label">Event:</label>
@@ -91,8 +107,14 @@ export class Events extends Component {
                                                                         return (
                                                                             <Fragment>
                                                                                 <div className="mb-3">
-                                                                                    <input className="mr-1" type="radio" name="choice" value={movie.movie_title}/>{movie.movie_title}                                                                            
-                                                                                    <ReactPlayer height="270px" url={movie.movie_review_link} width="480px"/>
+                                                                                    <input className="mr-1" type="radio" name="choice" value={movie.movie_id} onChange={this.onChange} />{movie.movie_title}                                                                            
+                                                                                    {movie.movie_review_link == "TRAILER NOT AVAILABLE" ? <p className="font-weight-bold text-danger">TRAILER NOT AVAILABLE</p> : <ReactPlayer height="270px" url={movie.movie_review_link} width="480px"/>}
+                                                                                    <label htmlFor="reviews" className="col-form-label">Reviews:</label>
+                                                                                    <ul name="review">
+                                                                                        <li>Review 1</li>
+                                                                                        <li>Review 2</li>
+                                                                                        <li>Review 3</li>
+                                                                                    </ul>
                                                                                 </div>
                                                                                 
                                                                         </Fragment>
@@ -124,4 +146,4 @@ const mapStateToProps = state => ({
     events: state.events.events
 })
 
-export default connect(mapStateToProps, { getEvents })(Events);
+export default connect(mapStateToProps, { getEvents, createVote})(Events);
