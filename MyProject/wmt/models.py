@@ -6,6 +6,13 @@ from datetime import datetime
 from movies.models import Movie
 
 
+class Vote(models.Model):
+    user = models.ForeignKey(User, related_name="vote_user", on_delete=models.CASCADE, null=True)
+    movie = models.ForeignKey(Movie, related_name="vote_movie", on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{event} user {user.username} vote {movie}"
+
 # Create your models here.
 class GroupExtend(models.Model):
     group_name = models.CharField(max_length=100, default="New Group")
@@ -23,16 +30,9 @@ class Event(models.Model):
     event_start_vote_time = models.DateTimeField("start vote time", default=datetime.now)
     event_end_vote_time = models.DateTimeField("end vote time", default=datetime.now)
     event_time = models.DateTimeField("event time", default=datetime.now)
-    movies = models.ManyToManyField(Movie, blank=True)
-
+    movies = models.ManyToManyField(Movie, blank=True, related_name="event_movies")
+    votes = models.ManyToManyField(Vote, blank=True, related_name="event_votes")
     def __str__(self):
         return self.event_name
 
 
-class Vote(models.Model):
-    event = models.ForeignKey(Event, default=None, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name="vote_user", on_delete=models.CASCADE, null=True)
-    movie = models.ForeignKey(Movie, related_name="vote_movie", on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return f"{event} user {user.username} vote {movie}"

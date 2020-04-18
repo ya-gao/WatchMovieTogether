@@ -3,6 +3,7 @@
 from rest_framework import serializers
 from .models import GroupExtend, Event, Vote
 from django.contrib.auth.models import User
+from movies.serializers import MovieSerializer
 
 # # NewUserManager Serializer
 # class NewUserManagerSerializer(serializers.ModelSerializer):
@@ -15,8 +16,11 @@ class VoteSerializer(serializers.ModelSerializer):
         model = Vote
         fields = '__all__'
 
+
 # Event Serializer
 class EventSerializer(serializers.ModelSerializer):
+    movies = MovieSerializer(many=True)
+    votes = VoteSerializer(many=True)
     class Meta:
         model = Event
         fields = '__all__'

@@ -23,7 +23,8 @@ export class Events extends Component {
                     <div className="row">
                     {
                         this.props.events.map(event => {
-                            const modalID = "inviteModal" + (event.id).toString();
+                            const modalID = "voteModal" + (event.id).toString();
+                            const modalTarget = "#" + modalID;
 
                             return (
                                 <Fragment key={event.id}>
@@ -55,19 +56,42 @@ export class Events extends Component {
 
                                                 <button 
                                                     className="btn btn-outline-info btn-sm btn-block"
+                                                    data-toggle="modal" data-target={modalTarget}
                                                     style={{marginTop: "10px"}}
                                                 >
                                                     {" "}  
-                                                    View Movie List
-                                                </button>
-
-                                                <button 
-                                                    className="btn btn-danger btn-sm btn-block"
-                                                >
-                                                    {" "}  
                                                     Vote
-                                                </button>
+                                                </button> 
                                             </div>   
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="modal fade" id={modalID} role="dialog">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="voteModalLabel">Choose a movie from the list</h5>
+                                                    <button type="button" className="close" data-dismiss="modal">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <form onSubmit={this.onSubmit}>
+                                                        <input type="hidden" name="event_id" value={event.id} />
+                                                        <div className="form-group">
+                                                            <label htmlFor="event_name" className="col-form-label">Event:</label>
+                                                            <input type="text" name="event_name" className="form-control" value={event.event_name} readOnly />
+                                                        </div>
+                                                        {/* <div className="form-group">
+                                                            <label htmlFor="Invited_username" className="col-form-label">Username:</label>
+                                                            <input type="text" name="invited_username" className="form-control" onChange={this.onChange} value={invited_username} required />
+                                                        </div> */}
+                                                        
+                                                        <hr />
+                                                        <input type="submit" value="Vote" className="btn btn-block btn-secondary" />
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </Fragment>                      
