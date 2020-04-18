@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
+import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEvents } from '../../actions/events';
-import { Link } from 'react-router-dom';
 
 export class Events extends Component {
     static PropTypes = {
@@ -57,6 +57,7 @@ export class Events extends Component {
                                                 <button 
                                                     className="btn btn-outline-info btn-sm btn-block"
                                                     data-toggle="modal" data-target={modalTarget}
+                                                    onClick={this.displayVote}
                                                     style={{marginTop: "10px"}}
                                                 >
                                                     {" "}  
@@ -67,7 +68,7 @@ export class Events extends Component {
                                     </div>
                                     
                                     <div className="modal fade" id={modalID} role="dialog">
-                                        <div className="modal-dialog">
+                                        <div className="modal-dialog modal-xl">
                                             <div className="modal-content">
                                                 <div className="modal-header">
                                                     <h5 className="modal-title" id="voteModalLabel">Choose a movie from the list</h5>
@@ -81,12 +82,27 @@ export class Events extends Component {
                                                         <div className="form-group">
                                                             <label htmlFor="event_name" className="col-form-label">Event:</label>
                                                             <input type="text" name="event_name" className="form-control" value={event.event_name} readOnly />
+                                                            <label htmlFor="movies_list" className="col-form-label">Movies:</label>
+                                                            <form name="movies_list">
+                                                                {
+                                                                    this.props.events.find(function(event) {
+                                                                        return "voteModal" + event.id == modalID;
+                                                                    }).movies.map(movie => {
+                                                                        return (
+                                                                            <Fragment>
+                                                                                <div className="mb-3">
+                                                                                    <input className="mr-1" type="radio" name="choice" value={movie.movie_title}/>{movie.movie_title}                                                                            
+                                                                                    <ReactPlayer height="270px" url={movie.movie_review_link} width="480px"/>
+                                                                                </div>
+                                                                                
+                                                                        </Fragment>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </form>
+                                                            
                                                         </div>
-                                                        {/* <div className="form-group">
-                                                            <label htmlFor="Invited_username" className="col-form-label">Username:</label>
-                                                            <input type="text" name="invited_username" className="form-control" onChange={this.onChange} value={invited_username} required />
-                                                        </div> */}
-                                                        
+                                                    
                                                         <hr />
                                                         <input type="submit" value="Vote" className="btn btn-block btn-secondary" />
                                                     </form>
