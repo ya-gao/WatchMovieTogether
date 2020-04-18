@@ -19,6 +19,37 @@ export class Events extends Component {
         this.props.getEvents(groupId);
     }
 
+    getReviews() {
+        this.movies.forEach(movie => {
+            let reviewsSearchReq = new XMLHttpRequest();
+
+            // Clear reviews
+            const movies = document.getElementsByClassName("reviews" + movie.movie_id);
+            for(var i = 0; i < movies.length; i++) {
+                movies[i].innerHTML = "";
+            }
+
+            // Get reviews
+            reviewsSearchReq.open("Get", "https://api.themoviedb.org/3/movie/" + movie.movie_id + "/reviews?api_key=f53857424b1f37f6e29ec176d40a4856")
+            reviewsSearchReq.send();
+            reviewsSearchReq.onload = function() {
+                const reviewsSearchRes = JSON.parse(reviewsSearchReq.response);
+                if(reviewsSearchRes.results.length) {
+                    reviewsSearchRes.results.forEach(review => {
+                        for(var i = 0; i < movies.length; i++) {
+                            movies[i].innerHTML += '<li>' + review.content + '</li>';
+                        }
+                    });
+                } else {
+                    for(var i = 0; i < movies.length; i++) {
+                        movies[i].innerHTML += '<li class="font-weight-bold text-danger">NO REVIEWS AVAILABLE</li>';
+                    }
+                }
+                
+            };
+        });
+    }
+
     onChange = e => {
         console.log(e.target.value);
         this.setState({ choice: e.target.value });
@@ -73,7 +104,7 @@ export class Events extends Component {
                                                 <button 
                                                     className="btn btn-outline-info btn-sm btn-block"
                                                     data-toggle="modal" data-target={modalTarget}
-                                                    onClick={this.displayVote}
+                                                    onClick={this.getReviews.bind(event)}
                                                     style={{marginTop: "10px"}}
                                                 >
                                                     {" "}  
@@ -106,15 +137,14 @@ export class Events extends Component {
                                                                     }).movies.map(movie => {
                                                                         return (
                                                                             <Fragment>
-                                                                                <div className="mb-3">
-                                                                                    <input className="mr-1" type="radio" name="choice" value={movie.movie_id} onChange={this.onChange} />{movie.movie_title}                                                                            
-                                                                                    {movie.movie_review_link == "TRAILER NOT AVAILABLE" ? <p className="font-weight-bold text-danger">TRAILER NOT AVAILABLE</p> : <ReactPlayer height="270px" url={movie.movie_review_link} width="480px"/>}
-                                                                                    <label htmlFor="reviews" className="col-form-label">Reviews:</label>
-                                                                                    <ul name="review">
-                                                                                        <li>Review 1</li>
-                                                                                        <li>Review 2</li>
-                                                                                        <li>Review 3</li>
-                                                                                    </ul>
+                                                                                <div className="mb-3" style={{borderBottom: "1px solid #EEE"}}>
+                                                                                    <input className="mr-1" type="radio" name="choice" value={movie.movie_id} onChange={this.onChange} />
+                                                                                    <p className="d-inline font-weight-bold h5">{movie.movie_title}</p>
+                                                                                    <div className="ml-3 mt-1">
+                                                                                        {movie.movie_review_link == "TRAILER NOT AVAILABLE" ? <p className="font-weight-bold mb-0 text-danger">TRAILER NOT AVAILABLE</p> : <ReactPlayer height="270px" url={movie.movie_review_link} width="480px"/>}
+                                                                                        <label htmlFor="reviews" className="col-form-label">Reviews:</label>
+                                                                                        <ul className={"overflow-auto reviews" + movie.movie_id} name="review" style={{maxHeight: "20rem"}}></ul>
+                                                                                    </div>
                                                                                 </div>
                                                                                 
                                                                         </Fragment>
@@ -122,9 +152,7 @@ export class Events extends Component {
                                                                     })
                                                                 }
                                                             </form>
-                                                            
                                                         </div>
-                                                    
                                                         <hr />
                                                         <input type="submit" value="Vote" className="btn btn-block btn-secondary" />
                                                     </form>
