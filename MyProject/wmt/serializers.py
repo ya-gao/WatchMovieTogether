@@ -1,7 +1,7 @@
 # Serializers allow complex data such as querysets and model instances to be converted to 
 # native Python datatypes that can then be easily rendered into JSON
 from rest_framework import serializers
-from .models import GroupExtend, Event
+from .models import GroupExtend, Event, Vote
 from django.contrib.auth.models import User
 
 # # NewUserManager Serializer
@@ -9,6 +9,11 @@ from django.contrib.auth.models import User
 #     class Meta:
 #         model = NewUserManager
 #         fields = '__all__'
+
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
+        fields = '__all__'
 
 # Event Serializer
 class EventSerializer(serializers.ModelSerializer):

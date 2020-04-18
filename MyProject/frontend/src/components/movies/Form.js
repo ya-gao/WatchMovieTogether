@@ -55,15 +55,20 @@ export class Form extends Component {
         }
 
         this.props.createEvent(event, chosen_movie_list);
-        // this.setState({
-        //     group: '',
-        //     event_name: '',
-        //     event_location: '',
-        //     event_time: null,
-        //     event_start_vote_time: null,
-        //     event_end_vote_time: null
-        // });
-        console.log(chosen_movie_list);
+
+        // Clear chosen movies list
+        document.getElementById("chosen-movies-list").innerHTML = ""
+        
+        this.setState({
+            group: '',
+            event_name: '',
+            event_location: '',
+            event_time: null,
+            event_start_vote_time: null,
+            event_end_vote_time: null,
+            chosen_movie_list:[]
+        });
+
     };
 
     render() {
@@ -105,13 +110,15 @@ export class Form extends Component {
                                     <label className="mb-0 mt-1">Event Time</label>
                                     <div>
                                         <DatePicker
-                                            dateFormat="MM/dd/yyyy HH:mm:ss"
+                                            dateFormat="MM/dd/yyyy HH:mm a"
                                             name="event_time"
                                             onChange={this.eventTimeOnChange}
                                             selected={this.state.event_time}
                                             showTimeSelect
                                             timeFormat="HH:mm"
                                             timeIntervals={15}
+                                            showTime={{ use12Hours: true, format: "HH:mm a" }}
+                                            format="YYYY-MM-DD HH:mm a"
                                         />
                                     </div>
                                     <label className="mb-0 mt-1">Start Vote Date</label>

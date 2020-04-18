@@ -41,15 +41,15 @@ export class Events extends Component {
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="far fa-calendar" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Event Time: {event.event_time.substr(0, 10) + " " + event.event_time.substr(11, 8)}
+                                                        Event Time: {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'America/New_York'}).format(new Date(event.event_time))}
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="fas fa-hourglass-start" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        Start Vote Date: {event.event_start_vote_time.substr(0, 10)}
+                                                        Start Vote Date: {new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York'}).format(new Date(event.event_start_vote_time))}
                                                     </li>
                                                     <li className="list-group-item">
                                                         <i className="fas fa-hourglass-end" style={{marginRight:"5px", color:"#be79df"}}></i>
-                                                        End Vote Date: {event.event_end_vote_time.substr(0, 10)}
+                                                        End Vote Date: {new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York'}).format(new Date(event.event_end_vote_time))}
                                                     </li>
                                                 </ul>
 

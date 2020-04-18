@@ -29,3 +29,10 @@ class Event(models.Model):
         return self.event_name
 
 
+class Vote(models.Model):
+    event = models.ForeignKey(Event, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="vote_user", on_delete=models.CASCADE, null=True)
+    movie = models.ForeignKey(Movie, related_name="vote_movie", on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{event} user {user.username} vote {movie}"
