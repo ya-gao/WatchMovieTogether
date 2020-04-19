@@ -9,7 +9,7 @@ export const createEvent = (event, chosen_movie_list) => (dispatch, getState) =>
   axios
     .post('/api/events/', {event_pass:event, movie_list_pass: chosen_movie_list}, tokenConfig(getState))
     .then(response => {
-        dispatch(createMessage({ createEvent: 'Group Created'}));
+        dispatch(createMessage({ createEvent: 'Event Created'}));
         dispatch({
             type: CREATE_EVENT,
             payload: response.data
@@ -36,7 +36,7 @@ export const createVote= (movie_id, event_id)=> (dispatch, getState) => {
   axios
     .post( '/api/vote/' , {movie_id_pass: movie_id, event_id_pass: event_id},tokenConfig(getState))
     .then(response => {
-        dispatch(createMessage({ createVote: 'Group Created'}));
+        dispatch(createMessage({ createVote: 'Vote Successfully'}));
         dispatch({
             type: CREATE_VOTE,
             payload: response.data

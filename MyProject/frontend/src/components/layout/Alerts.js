@@ -43,6 +43,12 @@ export class Alerts extends Component {
             if (message.sendInvitation) {
                 alert.success(message.sendInvitation);
             }
+            if (message.createEvent) {
+                alert.success(message.createEvent);
+            }
+            if (message.createVote) {
+                alert.success(message.createVote);
+            }
         }
     }
 
