@@ -108,7 +108,7 @@ export class Events extends Component {
                                                     style={{marginTop: "10px"}}
                                                 >
                                                     {" "}  
-                                                    Vote
+                                                    {new Date(event.event_end_vote_time) < new Date() ? "View vote result" : "Vote"}
                                                 </button> 
                                             </div>   
                                         </div>
