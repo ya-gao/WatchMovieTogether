@@ -15,7 +15,7 @@ admin.site.register(GroupExtend, GroupExtendAdmin)
 class EventAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ('event_name', 'group', 'event_location', 'event_start_vote_time','event_end_vote_time','event_time')
-    filter_horizontal = ('movies',)
+    filter_horizontal = ('movies','votes')
 
 
 admin.site.register(Event, EventAdmin)

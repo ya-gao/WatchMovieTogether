@@ -6,7 +6,8 @@ import { getEvents, createVote } from '../../actions/events';
 
 export class Events extends Component {
     state = {
-        choice: ''
+        choice: '',
+        winning_movie: ''
     };
 
     static PropTypes = {
@@ -70,8 +71,8 @@ export class Events extends Component {
                     <div className="row">
                     {
                         this.props.events.map(event => {
-                            const modalID = "voteModal" + (event.id).toString();
-                            const modalTarget = "#" + modalID;
+                            const voteModalID = "voteModal" + (event.id).toString();
+                            const modalTarget = "#" + voteModalID;
 
                             return (
                                 <Fragment key={event.id}>
@@ -101,24 +102,39 @@ export class Events extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <button 
-                                                    className="btn btn-outline-info btn-sm btn-block"
-                                                    data-toggle="modal" data-target={modalTarget}
-                                                    onClick={this.getReviews.bind(event)}
-                                                    style={{marginTop: "10px"}}
-                                                >
-                                                    {" "}  
-                                                    {new Date(event.event_end_vote_time) < new Date() ? "View vote result" : "Vote"}
-                                                </button> 
+                                                {
+                                                    new Date(event.event_start_vote_time) > new Date()
+                                                    ?
+                                                    ''
+                                                    :
+                                                    <button 
+                                                        className="btn btn-outline-info btn-sm btn-block"
+                                                        data-toggle="modal" data-target={modalTarget}
+                                                        onClick={this.getReviews.bind(event)}
+                                                        style={{marginTop: "10px"}}
+                                                    >
+                                                        {" "}  
+                                                        {new Date(event.event_end_vote_time) < new Date() ? "View vote result" : "Vote"}
+                                                    </button> 
+                                                }
+
+                                                
                                             </div>   
                                         </div>
                                     </div>
                                     
-                                    <div className="modal fade" id={modalID} role="dialog">
+                                    <div className="modal fade" id={voteModalID} role="dialog">
                                         <div className="modal-dialog modal-xl">
                                             <div className="modal-content">
                                                 <div className="modal-header">
-                                                    <h5 className="modal-title" id="voteModalLabel">Choose a movie from the list</h5>
+                                                    {
+                                                        new Date(event.event_end_vote_time) < new Date()
+                                                        ?
+                                                        <h5 className="modal-title" id="voteModalLabel">Vote period has ended</h5>
+                                                        :
+                                                        <h5 className="modal-title" id="voteModalLabel">Choose a movie from the list</h5>
+                                                    }
+                                                    
                                                     <button type="button" className="close" data-dismiss="modal">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -129,11 +145,97 @@ export class Events extends Component {
                                                         <div className="form-group">
                                                             <label htmlFor="event_name" className="col-form-label">Event:</label>
                                                             <input type="text" name="event_name" className="form-control" value={event.event_name} readOnly />
-                                                            <label htmlFor="movies_list" className="col-form-label">Movies:</label>
+                                                            {new Date(event.event_end_vote_time) < new Date() 
+                                                                ? 
+                                                                ''
+                                                                : 
+                                                                <label htmlFor="movies_list" className="col-form-label">Movies:</label>
+                                                            }
+                                                            
                                                             <form name="movies_list">
-                                                                {
+                                                                {   
+                                                                    new Date(event.event_end_vote_time) < new Date()
+                                                                    ?
+                                                                    this.props.events.filter(function(event) {
+                                                                        return "voteModal" + event.id == voteModalID;
+                                                                    }).map(event=> {
+                                                                        let winningMovie;
+                                                                        let maxVotes = 0;
+                                                                        let voteObj = {}
+                                                                        let voteObjArr = [];
+
+                                                                        // Initialize voteObjArr
+                                                                        event.movies.forEach(movie=>{
+                                                                            voteObjArr.push({
+                                                                                count: 0,
+                                                                                movie_id: movie.movie_id,
+                                                                                movie_title: movie.movie_title
+                                                                            });
+                                                                        }
+                                                            
+                                                                        )
+                                                                        event.votes.forEach(vote => {
+                                                                            const numVotes = event.votes.filter(mVote => {
+                                                                                return mVote.movie == vote.movie;
+                                                                            }).length;
+
+                                                                            // Keep count of votes
+                                                                            if(voteObj[vote.movie]) {
+                                                                                voteObj[vote.movie].count++;
+                                                                            } else {
+                                                                                voteObj[vote.movie] = {
+                                                                                    count: 1
+                                                                                };
+                                                                            }
+
+                                                                            if(numVotes > maxVotes) {
+                                                                                maxVotes = numVotes;
+                                                                                winningMovie = vote.movie;
+                                                                            }
+                                                                        });
+
+                                                                        // Get movie title
+                                                                        for(var movie in voteObj) {
+                                                                            if (Object.prototype.hasOwnProperty.call(voteObj, movie)) {
+                                                                                voteObj[movie].movie_title = event.movies.find(mMovie => {
+                                                                                    return mMovie.movie_id == movie;
+                                                                                }).movie_title;
+                                                                            }
+                                                                        }
+
+                                                                        // Push count to voteObjArr
+                                                                        for(var movie in voteObj) {
+                                                                            if (Object.prototype.hasOwnProperty.call(voteObj, movie)) {
+                                                                                voteObjArr.find(vote => {
+                                                                                    return vote.movie_id == movie;
+                                                                                }).count = voteObj[movie].count;
+                                                                            }
+                                                                        }
+
+                                                                        let winner = event.movies.find(movie => {
+                                                                            return movie.movie_id == winningMovie;
+                                                                        });
+                                                                        
+                                                                        
+                                                                        return (
+                                                                            <Fragment>
+                                                                                <p className="font-weight-bold h3 mt-3"><b>Winning Movie:</b> {winner.movie_title}</p>
+                                                                                <label htmlFor="vote-results" className="col-form-label font-weight-bold">Vote Results:</label>
+                                                                                <ul name="vote-results">
+                                                                                    {voteObjArr.map(vote => {
+                                                                                        return (
+                                                                                            <li><b>Movie:</b> {vote.movie_title}, <b>Votes:</b> {vote.count}</li>
+                                                                                        )
+                                                                                    })}
+                                                                                </ul>
+                                                                                
+                                                                            </Fragment>
+                                                                        )
+                                                                    })
+                                                                    
+                                                                    :
                                                                     this.props.events.find(function(event) {
-                                                                        return "voteModal" + event.id == modalID;
+                                                                        return "voteModal" + event.id == voteModalID;
                                                                     }).movies.map(movie => {
                                                                         return (
                                                                             <Fragment>
@@ -147,14 +249,20 @@ export class Events extends Component {
                                                                                     </div>
                                                                                 </div>
                                                                                 
-                                                                        </Fragment>
+                                                                            </Fragment>
                                                                         )
                                                                     })
                                                                 }
                                                             </form>
                                                         </div>
                                                         <hr />
-                                                        <input type="submit" value="Vote" className="btn btn-block btn-secondary" />
+                                                        {
+                                                            new Date(event.event_end_vote_time) < new Date()
+                                                            ?
+                                                            ''
+                                                            :
+                                                            <input type="submit" value="Vote" className="btn btn-block btn-secondary" />
+                                                        }
                                                     </form>
                                                 </div>
                                             </div>
