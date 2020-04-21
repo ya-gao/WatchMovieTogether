@@ -163,6 +163,7 @@ export class Events extends Component {
                                                                         let maxVotes = 0;
                                                                         let voteObj = {}
                                                                         let voteObjArr = [];
+                                                                        let winner;
 
                                                                         // Initialize voteObjArr
                                                                         event.movies.forEach(movie=>{
@@ -212,11 +213,16 @@ export class Events extends Component {
                                                                             }
                                                                         }
 
-                                                                        let winner = event.movies.find(movie => {
-                                                                            return movie.movie_id == winningMovie;
-                                                                        });
-                                                                        
-                                                                        
+                                                                        // Get winning movie
+                                                                        if(winningMovie) {
+                                                                            winner = event.movies.find(movie => {
+                                                                                return movie.movie_id == winningMovie;
+                                                                            });
+                                                                        } else {
+                                                                            // 0 votes, choose 1st movie as winning movie
+                                                                            winner = event.movies[0];
+                                                                        }
+
                                                                         return (
                                                                             <Fragment>
                                                                                 <p className="font-weight-bold h3 mt-3"><b>Winning Movie:</b> {winner.movie_title}</p>

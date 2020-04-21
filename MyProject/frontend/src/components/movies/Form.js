@@ -85,7 +85,7 @@ export class Form extends Component {
                             className="btn btn-outline-info btn-sm"
                             onClick={this.openChooseMoviesPopUp}
                         >
-                            <i className="far fa-hand-pointer" style={{marginRight:"5px", color:"#be79df"}}></i>
+                            <i className="far fa-hand-pointer" onClick={this.deleteMovie} style={{marginRight:"5px", color:"#be79df"}}></i>
                             Choose Movies
                         </button>
                     </div>
