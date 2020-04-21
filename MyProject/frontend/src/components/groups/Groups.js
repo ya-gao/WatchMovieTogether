@@ -99,7 +99,7 @@ export class Groups extends Component {
                                         </div>
                                     </div>
 
-                                    <div className="modal fade" id={modalID} role="dialog">
+                                    <div className="modal" id={modalID} role="dialog">
                                         <div className="modal-dialog">
                                             <div className="modal-content">
                                                 <div className="modal-header">
@@ -121,7 +121,7 @@ export class Groups extends Component {
                                                         </div>
                                                         
                                                         <hr />
-                                                        <input type="submit" value="Send" className="btn btn-block btn-secondary" />
+                                                        <input data-toggle="modal" data-target={modalTarget} type="submit" value="Send" className="btn btn-block btn-secondary" />
                                                     </form>
                                                 </div>
                                             </div>
