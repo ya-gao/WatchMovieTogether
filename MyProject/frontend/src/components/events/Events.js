@@ -267,7 +267,7 @@ export class Events extends Component {
                                                             ?
                                                             ''
                                                             :
-                                                            <input type="submit" value="Vote" className="btn btn-block btn-secondary"  data-dismiss="modal"/>
+                                                            <input type="submit" value="Vote" className="btn btn-block btn-secondary" data-toggle="modal" data-target={modalTarget}/>
                                                         }
                                                     </form>
                                                 </div>
