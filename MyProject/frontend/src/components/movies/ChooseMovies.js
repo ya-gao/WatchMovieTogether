@@ -34,7 +34,7 @@ export class ChooseMovies extends Component {
         // Append checked movies to chosen movies list
         for(var i = 0; i < checkboxes.length; i++) {
             if(checkboxes[i].checked) {
-                document.getElementById("chosen-movies-list").innerHTML += '<li class="chosen-movie" id="movie-' + checkboxes[i].id + '" data-overview="' + checkboxes[i].getAttribute("data-overview") + '" data-title="' + checkboxes[i].getAttribute("data-title") + '" data-year="' + checkboxes[i].getAttribute("data-year") + '" data-youtube-link="' + checkboxes[i].getAttribute("data-youtube-link") + '">' + checkboxes[i].getAttribute("data-title") + '<i class="far fa-trash-alt ml-1" onclick="deleteMovie(this)"></i></li>'
+                document.getElementById("chosen-movies-list").innerHTML += '<li class="chosen-movie" id="movie-' + checkboxes[i].id + '" data-overview="' + checkboxes[i].getAttribute("data-overview") + '" data-title="' + checkboxes[i].getAttribute("data-title") + '" data-year="' + checkboxes[i].getAttribute("data-year") + '" data-youtube-link="' + checkboxes[i].getAttribute("data-youtube-link") + '">' + checkboxes[i].getAttribute("data-title") + '<i class="far fa-trash-alt ml-1" onClick={document.getElementById("movie-' + checkboxes[i].id + '").parentNode.removeChild(document.getElementById("movie-' + checkboxes[i].id + '"));}></i></li>'
                 get_chosen_movies_list.push({
                     movie_id: checkboxes[i].id,
                     movie_overview: checkboxes[i].getAttribute("data-overview"),
@@ -57,11 +57,6 @@ export class ChooseMovies extends Component {
             document.getElementById("search-name").value = "";
         });
     };
-
-    deleteMovie = e => {
-        console.log("Delete movie");
-
-    }
 
     searchMovies = e => {
         e.preventDefault();
@@ -136,8 +131,6 @@ export class ChooseMovies extends Component {
                 console.log(`Error ${nameSearchReq.status} ${nameSearchReq.statusText}`);
             }
         }
-
-        // this.props.getMovies();
     };
 
     render() {

@@ -21,10 +21,6 @@ export class Form extends Component {
         createEvent: PropTypes.func.isRequired
     }
 
-    deleteMovie = e => {
-        console.log(e);
-    }
-
     onChange = e => this.setState({ [e.target.name]: e.target.value });
     eventTimeOnChange = e => this.setState({event_time: e});
     eventStartVoteTimeOnChange = e => this.setState({event_start_vote_time: e});
@@ -85,7 +81,7 @@ export class Form extends Component {
                             className="btn btn-outline-info btn-sm"
                             onClick={this.openChooseMoviesPopUp}
                         >
-                            <i className="far fa-hand-pointer" onClick={this.deleteMovie} style={{marginRight:"5px", color:"#be79df"}}></i>
+                            <i className="far fa-hand-pointer" style={{marginRight:"5px", color:"#be79df"}}></i>
                             Choose Movies
                         </button>
                     </div>
