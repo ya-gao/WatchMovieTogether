@@ -4,6 +4,7 @@ from .serializers import ShowGroupSerializer, GroupSerializer, EventSerializer, 
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from movies.models import Movie
+from django.core.mail import send_mail
 
 class VoteViewSet(viewsets.ModelViewSet):
     serializer_class= VoteSerializer
@@ -104,6 +105,16 @@ class EventViewSet(viewsets.ModelViewSet):
         # print(request.data['event_pass'])
         # print(request.data['movie_list_pass'])
         event.save()
+        email_list = []
+        for member in current_group.members.all():
+            email_list.append(member.email)
+        send_mail(
+            "A new event",
+            f"your group {current_group.group_name} created a new event {event.event_name}",
+            from_email="adamgu2016@gmail.com",
+            recipient_list=email_list,
+            fail_silently=True,
+        )
         event_serializer = EventSerializer(event)
 
         return Response(event_serializer.data)
